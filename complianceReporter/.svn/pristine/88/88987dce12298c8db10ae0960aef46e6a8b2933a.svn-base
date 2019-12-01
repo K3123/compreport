@@ -1,0 +1,9 @@
+<dataset>
+    <dbinventory dbid="219" description="cfs bi test" location="alpharetta" database_name="ACBSCONV" port="" server_name="cmfalgapacbs01" db_status="UNLOCK" db_usage="DEV" version="10.2.0.4.0" virtual_sql_instance="n/a" />
+    <dbinventory dbid="445" description="pms rehost acquisition b1" location="cincinnati" database_name="PMSACB1" port="" server_name="cmfciohqpms03"  db_status="RETIRED" db_usage="TEST" version="10.2.0.4.0" virtual_sql_instance="n/a"/>
+    <dbinventory dbid="801" description="pms rehost acquisition b" location="alpharetta" database_name="PMSACB" port="" server_name="cmfalgapacbs01" db_status="RETIRED" db_usage="TEST" version="10.2.0.4.0" virtual_sql_instance="n/a"/>
+    <dbinventory dbid="919" description="cfs bi test" location="alpharetta" database_name="ACBSDONV" port="" server_name="cmfalgapacbs01" db_status="UNLOCK" db_usage="DEV" version="10.2.0.4.0" virtual_sql_instance="n/a" />
+    <dbinventory dbid="545" description="pms rehost acquisition b1" location="cincinnati" database_name="PMSACB93" port="" server_name="cmfciohqpms03"  db_status="UNLOCK" db_usage="TEST" version="10.2.0.4.0" virtual_sql_instance="n/a"/>
+    <dbinventory dbid="901" description="pms rehost acquisition b" location="alpharetta" database_name="PMSACB11" port="" server_name="cmfalgapacbs01" db_status="RETIRED" db_usage="TEST" version="10.2.0.4.0" virtual_sql_instance="n/a"/>
+</dataset>
+

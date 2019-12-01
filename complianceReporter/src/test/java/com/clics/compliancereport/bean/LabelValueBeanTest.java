@@ -1,0 +1,22 @@
+package com.clics.compliancereport.bean;
+
+import org.junit.Test;
+
+import static junit.framework.Assert.assertEquals;
+
+
+public class LabelValueBeanTest {
+
+    private static final String LABEL = "label";
+    private static final String VALUE = "value";
+
+    @Test
+    public void testLabel1() throws Exception {
+        LabelValueBean valueBean = new LabelValueBean(LABEL, VALUE);
+        assertEquals(valueBean.getLabel(), LABEL);
+        assertEquals(valueBean.getValue(), VALUE);
+    }
+}
+
+
+

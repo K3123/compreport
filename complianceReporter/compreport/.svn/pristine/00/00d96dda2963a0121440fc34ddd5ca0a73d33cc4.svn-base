@@ -1,0 +1,73 @@
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+      version="3.0">
+
+    <display-name>Compliance Report Requestor</display-name>
+
+    <session-config>
+        <session-timeout>60</session-timeout>
+    </session-config>
+
+    <context-param>
+        <param-name>spring.profiles.active</param-name>
+        <param-value>oracle</param-value>
+    </context-param>
+
+	<!-- The definition of the Root Spring Container shared by all Servlets and Filters -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+            classpath:/config/spring/spring-main-context.xml
+        </param-value>
+	</context-param>
+	
+	<!-- Creates the Spring Container shared by all Servlets and Filters -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+    <!-- DataTables4j filter definition -->
+    <filter>
+        <filter-name>datatablesFilter</filter-name>
+        <filter-class>com.github.dandelion.datatables.extras.servlet2.filter.DatatablesFilter</filter-class>
+    </filter>
+
+    <!-- DataTables4j filter mapping -->
+    <filter-mapping>
+        <filter-name>datatablesFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    
+	<!-- Processes application requests -->
+	<servlet>
+		<servlet-name>spring</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring-servlet.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+		<async-supported>true</async-supported>
+	</servlet>
+
+    <!-- DataTables4j servlet definition -->
+    <servlet>
+        <servlet-name>datatablesController</servlet-name>
+        <servlet-class>com.github.dandelion.datatables.extras.servlet2.servlet.DatatablesServlet</servlet-class>
+    </servlet>
+
+
+    <servlet-mapping>
+      <servlet-name>spring</servlet-name>
+      <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+    <!-- DataTables4j servlet mapping -->
+    <servlet-mapping>
+        <servlet-name>datatablesController</servlet-name>
+        <url-pattern>/datatablesController/*</url-pattern>
+    </servlet-mapping>
+
+    
+</web-app>

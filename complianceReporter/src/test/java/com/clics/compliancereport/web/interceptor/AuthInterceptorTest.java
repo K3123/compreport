@@ -1,0 +1,45 @@
+package com.clics.compliancereport.web.interceptor;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
+
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
+
+public class AuthInterceptorTest {
+    private MockHttpServletRequest request;
+    private MockHttpServletResponse response;
+    private AuthInterceptor interceptor;
+
+    @Before
+    public void before() throws Exception {
+        request = new MockHttpServletRequest();
+        response = new MockHttpServletResponse();
+        interceptor = new AuthInterceptor();
+    }
+
+    @After
+    public void after() throws Exception {
+        request = null;
+        response = null;
+        interceptor = null;
+    }
+
+
+    @Test
+    public void testPreHandleWithFakeUserCredentialActicated() throws Exception {
+        interceptor.setbFakeUserActivated(true);
+        boolean granted = interceptor.preHandle(request, response, null);
+        assertTrue(granted);
+    }
+
+    @Test
+    public void testPreHandleWithExpectedCredentialFromRequestHeader() throws Exception {
+        interceptor.setbFakeUserActivated(false);
+        boolean granted = interceptor.preHandle(request, response, null);
+        assertFalse(granted);
+    }
+}

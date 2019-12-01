@@ -1,0 +1,228 @@
+<?xml version="1.0"?>
+<project name="Tomcat Deployment" basedir="." default="usage">
+	<property name="name" value="compreportpilot" />
+	<property name="WAR_FILE_NAME" value="${name}.war" />
+
+	<property environment="env"/>
+	<property name="ARCHIVE_PATH" value="${env.JENKINS_HOME}\jobs\${env.PROMOTED_JOB_NAME}\builds\${env.PROMOTED_ID}\archive" />
+	<property name="WAR_FILE_PATH" value="${ARCHIVE_PATH}\target\${WAR_FILE_NAME}" />
+	<property name="ENV_PROPS_PATH" value="${ARCHIVE_PATH}\deploy\${servers}" />
+    <property name="deploy.common.private.keyfile" value ="${user.home}/.ssh/id_rsa" />
+    <property name="server.timeout" value="20000"/>
+
+	<!--
+	Ant-Contrib Taskdef
+	Make sure Ant-Contrib and its dependancies are installed in the ANT_HOME/lib folder.
+	-->
+	<taskdef resource="net/sf/antcontrib/antlib.xml" onerror="report"/>
+
+	<target name="usage">
+		<echo message="Available Targets:" />
+		<echo message="" />
+		<echo message="deploy       Deploys a war file to specified environment. " />
+		<echo message="deploy-help  Shows command syntax for 'deploy' target. " />
+	</target>
+
+	<target name="deploy-help">
+		<echo message="Deploy does the following:" />
+		<echo message="    - Finds the specified war file." />
+		<echo message="    - Shuts down the app server instances for the specified environment" />
+		<echo message="    - Copies the war to each server instance." />
+		<echo message="    - Starts the tomcat server instances." />
+		<echo message="" />
+		<echo message="Command line syntax:"/>
+		<echo message="ant deploy -Dservers={config dir}" />
+		<echo message="OPTIONAL: -Drevision={revision}  -Dparallel={parallel}" />
+		<echo message="" />
+		<echo message="{config dir} = Dir where server config files can be found. " />
+		<echo message="{revision} = Revision number found in artifact manifest, i.e. 1.0.42 " />
+		<echo message="{parallel} = true/false - Run deploy to multiple servers async. Default True. " />
+		<echo message="{backup} = true/false - Backup the current deployment on the server instead of deleting it. Default FALSE. " />
+		<echo message="If neither timestamp or revision is supplied, deploy looks for warfile in basedir. If both are specified, timestamp takes precidence." />
+		<echo message="" />
+		<echo message="Example of revision deploy:" />
+		<echo message="ant deploy -Drevision=1.0.42 -Dservers=uat -Dparallel=true" />
+		<echo message="" />
+		<echo message="Example of deploying warfile from current basedir::" />
+		<echo message="ant deploy -Dservers=uat" />
+	</target>
+
+
+	<target name="-init">
+
+		<echo message="ARCHIVE_PATH:   ${ARCHIVE_PATH}"/>
+		<echo message="WAR_FILE_PATH:  ${WAR_FILE_PATH}"/>
+		<echo message="ENV_PROPS_PATH:  ${ENV_PROPS_PATH}"/>
+
+		<tstamp>
+			<format property="NOW" pattern="MMddyyhhmmaa" />
+		</tstamp>
+
+		<echo message="TIME:  ${NOW}"/>
+
+		<echo message="Using Build:  ${env.PROMOTED_BUILD_NUMBER}"/>
+
+
+	</target>
+    <target name="info">
+
+		<echo message="ARCHIVE_PATH:   ${ARCHIVE_PATH}"/>
+		<echo message="WAR_FILE_PATH:  ${WAR_FILE_PATH}"/>
+		<echo message="ENV_PROPS_PATH:  ${ENV_PROPS_PATH}"/>
+
+		<tstamp>
+			<format property="NOW" pattern="MMddyyhhmmaa" />
+		</tstamp>
+
+		<echo message="TIME:  ${NOW}"/>
+
+		<echo message="Using Build:  ${env.PROMOTED_BUILD_NUMBER}"/>
+
+
+	</target>
+
+	<target name="deploy" depends="-init">
+		<antcallback target="find-war" return="warFile"/>
+
+		<echo message="Deploying ${warFile}" />
+		<antcall target="deploy-war"/>
+	</target>
+
+	<target name="find-war">
+		<if>
+			<isset property="env.PROMOTED_ID" />
+			<then>
+				<echo message="Using PROMOTED_ID" />
+				<property name="warFile" value="${WAR_FILE_PATH}" />
+			</then>
+			<else>
+				<available property="warExists" file="${basedir}/target/${name}.war" type="file" />
+				<if>
+					<not><istrue value="${warExists}"/></not>
+					<then>
+						<fail message="PROMOTED_ID not specified, and ${name}.war not found in current directory."/>
+					</then>
+				</if>
+
+				<echo message="Found ${name}.war in current directory." />
+				<property name="warFile" value="${basedir}/target/${name}.war" />
+			</else>
+		</if>
+	</target>
+
+	<target name="deploy-war">
+		<available property="warExists" file="${warFile}" type="file" />
+
+		<if>
+			<not><istrue value="${warExists}"/></not>
+			<then>
+				<fail message="Warfile '${warFile}' does not exist, please check path."/>
+			</then>
+		</if>
+
+		<if>
+			<equals arg1="${parallel}" arg2="$${parallel}" />
+			<then>
+				<property name="parallel" value="true" />
+			</then>
+		</if>
+
+		<foreach param="filepath" target="deploy-remote" inheritall="true">
+
+			<path>
+				<fileset dir="deploy/${servers}">
+					<include name="**/*.properties"/>
+				</fileset>
+			</path>
+
+		</foreach>
+	</target>
+
+	<target name="deploy-remote" description="Stops remote server, deploys app, restarts remote server.">
+
+		<echo message="loading property file from ${filepath}" />
+		<property file="${filepath}" />
+        
+        <echo message="instance.deploy.host is set to ${instance.deploy.host}"/>
+        <echo message="==>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"/>
+        <echo message="==>>>>>>  STARTING TASKS TO DEPLOY WAR ON ${instance.name} SERVER >>>>>"/>
+        <echo message="==>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"/>
+
+        <echo message="->STOPPING INSTANCE ON ${instance.name} SERVER"/>
+
+        <sshexec host="${instance.deploy.host}"
+                 username="${instance.deploy.username}"
+                 passphrase=""
+                 keyfile="${deploy.common.private.keyfile}"
+                 trust="true"
+                 command="${instance.stop}"
+                 failonerror="false"/>
+
+        <echo message="->DELETING THE CURRENT WAR ON ${instance.name} SERVER"/>
+        <sshexec host="${instance.deploy.host}"
+                 username="${instance.deploy.username}"
+                 passphrase=""
+                 keyfile="${deploy.common.private.keyfile}"
+                 trust="true"
+                 command="rm -rf ${instance.deploy.folder}/${name}*"
+                 failonerror="true"/>
+
+        <echo message="->Copying ${WAR_FILE_PATH} to remote server (${instance.deploy.username}@${instance.deploy.host}:${instance.deploy.folder}) ..."/>
+        <scp file="${warFile}"
+             todir="${instance.deploy.username}@${instance.deploy.host}:${instance.deploy.folder}"
+             keyfile="${deploy.common.private.keyfile}"
+             passphrase=""
+             trust="true"
+             verbose="false"
+             failonerror="true"/>
+
+        <echo message="->CLEARING INSTANCE CACHE FOLDERS ON ${instance.name} SERVER ..."/>
+
+        <sshexec host="${instance.deploy.host}"
+                 username="${instance.deploy.username}"
+                 passphrase=""
+                 keyfile="${deploy.common.private.keyfile}"
+                 trust="true"
+                 command="${instance.clean.cache.folders.command}"
+                 failonerror="true"/>
+
+        <sequential>
+            <!-- Step 5: Restarting remote instance -->
+            <echo message="->RESTARTING INSTANCE ON ${instance.name} SERVER"/>
+            <parallel>
+                <sequential>
+                    <sshexec host="${instance.deploy.host}"
+                             username="${instance.deploy.username}"
+                             keyfile="${deploy.common.private.keyfile}"
+                             trust="true"
+                             timeout="${server.timeout}"
+                             command="${instance.start}"
+                             failonerror="false"/>
+
+                    <echo message="->>> Waiting up to 6 minutes for the app server to stablize and call our ping service -> ${instance.ping}"/>
+                </sequential>
+
+                <sequential>
+                    <waitfor maxwait="10" maxwaitunit="minute" checkevery="20000"
+                             timeoutproperty="app.timeout">
+                        <http url="${instance.ping}"/>
+                    </waitfor>
+
+                </sequential>
+
+
+            </parallel>
+
+            <if>
+                <isset property="app.timeout"/>
+                <then>
+                    <fail message="-->Application didn't come up.. Build is failing."/>
+                </then>
+                <else>
+                    <echo message="-> SUCCESS calling ${instance.ping}.  Application is up."/>
+                </else>
+            </if>
+        </sequential>
+    </target>
+
+</project>

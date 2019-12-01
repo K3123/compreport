@@ -1,0 +1,5 @@
+# *-- oracle database properties for DEV --*
+db.driverClassName=oracle.jdbc.driver.OracleDriver
+db.url=jdbc:oracle:thin:@cfdbat.comfin.ge.com:1521:cfdbat
+db.username=ENC(TS63mh0V9b8Vq+uchw8cjw==)
+db.password=ENC(vYcF1nD1r5IwTzsf/u4X+j59OJ+z54vm)

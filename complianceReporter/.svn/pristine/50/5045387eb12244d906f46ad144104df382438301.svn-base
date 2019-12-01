@@ -1,0 +1,12 @@
+instance.name=PROD1
+instance.user.home=/opt2/prod/appbuilder_prod1
+instance.root=${instance.user.home}
+instance.deploy.folder=${instance.root}/content
+instance.backup.folder=${instance.root}/backup
+instance.deploy.host=CMFCIOHPMSEC01V.comfin.ge.com
+instance.deploy.username=appbuilder
+instance.script=${instance.root}/jboss_appbuilder_prod1.sh
+instance.start=${instance.script} start
+instance.stop=${instance.script} stop
+instance.clean.cache.folders.command=rm -rf ${instance.root}/tmp/* ${instance.root}/work/*
+instance.ping=http://3.24.215.74:8080/appbuilder/public/ping.html

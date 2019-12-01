@@ -1,0 +1,347 @@
+package com.clics.compliancereport.bean;
+
+import com.clics.compliancereport.common.TestConstants;
+import com.clics.compliancereport.common.TestUtil;
+import com.clics.compliancereport.domain.CompRequest;
+import org.junit.Test;
+
+import java.util.List;
+
+import static junit.framework.Assert.*;
+
+
+public class FormBeanTest {
+
+    @Test
+    public void testSearch() throws Exception {
+        FormBean form = new FormBean();
+        form.setSearch(TestConstants.MULTIPLE_DB_NAMES);
+        assertNotNull(form.getSearch());
+        assertEquals(form.getSearch(), TestConstants.MULTIPLE_DB_NAMES);
+        assertNull(form.getUsage());
+        assertNull(form.getName());
+        assertNull(form.getVersion());
+        assertNull(form.getVirtualSqlInstance());
+        assertNull(form.getSsoId());
+        assertNull(form.getEmail());
+        assertEquals(form.getDebug(), TestConstants.NOTAPPLICABLE);
+        assertNull(form.getDesc());
+        assertNull(form.getPort());
+        assertNull(form.getLocation());
+        assertNull(form.getReportType());
+        assertNull(form.getReportTypes());
+        assertNull(form.getServerName());
+        assertEquals(form.isbAllDatabases(), false);
+    }
+
+
+    @Test
+    public void testName() throws Exception {
+        FormBean form = new FormBean();
+        form.setName(TestConstants.DB_TEST_NAME);
+        assertNotNull(form.getName());
+        assertEquals(form.getName(), TestConstants.DB_TEST_NAME);
+        assertNull(form.getSearch());
+        assertNull(form.getUsage());
+        assertNull(form.getVersion());
+        assertNull(form.getVirtualSqlInstance());
+        assertNull(form.getSsoId());
+        assertNull(form.getEmail());
+        assertEquals(form.getDebug(), TestConstants.NOTAPPLICABLE);
+        assertNull(form.getDesc());
+        assertNull(form.getPort());
+        assertNull(form.getLocation());
+        assertNull(form.getReportType());
+        assertNull(form.getReportTypes());
+        assertNull(form.getServerName());
+        assertEquals(form.isbAllDatabases(), false);
+    }
+
+
+    @Test
+    public void testUsage() throws Exception {
+        FormBean form = new FormBean();
+        form.setUsage(TestConstants.DB_TEST_USAGE1);
+        assertNotNull(form.getUsage());
+        assertEquals(form.getUsage(), TestConstants.DB_TEST_USAGE1);
+        assertNull(form.getSearch());
+        assertNull(form.getName());
+        assertNull(form.getVersion());
+        assertNull(form.getVirtualSqlInstance());
+        assertNull(form.getSsoId());
+        assertNull(form.getEmail());
+        assertEquals(form.getDebug(), TestConstants.NOTAPPLICABLE);
+        assertNull(form.getDesc());
+        assertNull(form.getPort());
+        assertNull(form.getLocation());
+        assertNull(form.getReportType());
+        assertNull(form.getReportTypes());
+        assertNull(form.getServerName());
+        assertEquals(form.isbAllDatabases(), false);
+    }
+
+
+    @Test
+    public void testLocation() throws Exception {
+        FormBean form = new FormBean();
+        form.setLocation(TestConstants.DB_LOCATION);
+        assertNotNull(form.getLocation());
+        assertEquals(form.getLocation(), TestConstants.DB_LOCATION);
+        assertNull(form.getSearch());
+        assertNull(form.getName());
+        assertNull(form.getVersion());
+        assertNull(form.getVirtualSqlInstance());
+        assertNull(form.getSsoId());
+        assertNull(form.getEmail());
+        assertEquals(form.getDebug(), TestConstants.NOTAPPLICABLE);
+        assertNull(form.getDesc());
+        assertNull(form.getPort());
+        assertNull(form.getReportType());
+        assertNull(form.getReportTypes());
+        assertNull(form.getServerName());
+        assertEquals(form.isbAllDatabases(), false);
+    }
+
+
+    @Test
+    public void testVersion() throws Exception {
+        FormBean form = new FormBean();
+        form.setVersion(TestConstants.DB_VERSION);
+        form.setbAllDatabases(true);
+        assertNotNull(form.getVersion());
+        assertEquals(form.getVersion(), TestConstants.DB_VERSION);
+        assertNull(form.getSearch());
+        assertNull(form.getName());
+        assertNull(form.getVirtualSqlInstance());
+        assertNull(form.getSsoId());
+        assertNull(form.getEmail());
+        assertEquals(form.getDebug(), TestConstants.NOTAPPLICABLE);
+        assertNull(form.getDesc());
+        assertNull(form.getLocation());
+        assertNull(form.getPort());
+        assertNull(form.getReportType());
+        assertNull(form.getReportTypes());
+        assertNull(form.getServerName());
+        assertEquals(form.isbAllDatabases(), true);
+    }
+
+
+    @Test
+    public void testDesc() throws Exception {
+        FormBean form = new FormBean();
+        form.setDesc(TestConstants.DB_DESC);
+        form.setbAllDatabases(true);
+        assertNotNull(form.getDesc());
+        assertEquals(form.getDesc(), TestConstants.DB_DESC);
+        assertNull(form.getSearch());
+        assertNull(form.getName());
+        assertNull(form.getVirtualSqlInstance());
+        assertNull(form.getSsoId());
+        assertNull(form.getEmail());
+        assertEquals(form.getDebug(), TestConstants.NOTAPPLICABLE);
+        assertNull(form.getVersion());
+        assertNull(form.getLocation());
+        assertNull(form.getPort());
+        assertNull(form.getReportType());
+        assertNull(form.getReportTypes());
+        assertNull(form.getServerName());
+        assertEquals(form.isbAllDatabases(), true);
+    }
+
+
+    @Test
+    public void testServerName() throws Exception {
+        FormBean form = new FormBean();
+        form.setServerName(TestConstants.DB_SERVER_NAME);
+        form.setbAllDatabases(true);
+        assertNotNull(form.getServerName());
+        assertEquals(form.getServerName(), TestConstants.DB_SERVER_NAME);
+        assertNull(form.getSearch());
+        assertNull(form.getName());
+        assertNull(form.getDesc());
+        assertNull(form.getVirtualSqlInstance());
+        assertNull(form.getSsoId());
+        assertNull(form.getEmail());
+        assertEquals(form.getDebug(), TestConstants.NOTAPPLICABLE);
+        assertNull(form.getVersion());
+        assertNull(form.getLocation());
+        assertNull(form.getPort());
+        assertNull(form.getReportType());
+        assertNull(form.getReportTypes());
+        assertEquals(form.isbAllDatabases(), true);
+    }
+
+
+    @Test
+    public void testVirtualSqlInstance() throws Exception {
+        FormBean form = new FormBean();
+        form.setVirtualSqlInstance(TestConstants.DB_TEST_VSI);
+        form.setbAllDatabases(true);
+        assertNotNull(form.getVirtualSqlInstance());
+        assertEquals(form.getVirtualSqlInstance(), TestConstants.DB_TEST_VSI);
+        assertNull(form.getSearch());
+        assertNull(form.getName());
+        assertNull(form.getDesc());
+        assertNull(form.getSsoId());
+        assertNull(form.getServerName());
+        assertNull(form.getEmail());
+        assertEquals(form.getDebug(), TestConstants.NOTAPPLICABLE);
+        assertNull(form.getVersion());
+        assertNull(form.getLocation());
+        assertNull(form.getPort());
+        assertNull(form.getReportType());
+        assertNull(form.getReportTypes());
+        assertNull(form.getServerName());
+        assertEquals(form.isbAllDatabases(), true);
+    }
+
+
+    @Test
+    public void testPort() throws Exception {
+        FormBean form = new FormBean();
+        form.setPort(TestConstants.DB_PORT);
+        form.setbAllDatabases(true);
+        assertNotNull(form.getPort());
+        assertEquals(form.getPort(), TestConstants.DB_PORT);
+        assertNull(form.getSearch());
+        assertNull(form.getName());
+        assertNull(form.getDesc());
+        assertNull(form.getVirtualSqlInstance());
+        assertNull(form.getSsoId());
+        assertNull(form.getServerName());
+        assertNull(form.getEmail());
+        assertEquals(form.getDebug(), TestConstants.NOTAPPLICABLE);
+        assertNull(form.getVersion());
+        assertNull(form.getLocation());
+        assertNull(form.getReportType());
+        assertNull(form.getReportTypes());
+        assertNull(form.getServerName());
+        assertEquals(form.isbAllDatabases(), true);
+    }
+
+
+    @Test
+    public void testEmail() throws Exception {
+        FormBean form = new FormBean();
+        form.setEmail(TestConstants.TEST_EMAIL);
+        form.setbAllDatabases(true);
+        assertNotNull(form.getEmail());
+        assertEquals(form.getEmail(), TestConstants.TEST_EMAIL);
+        assertNull(form.getSearch());
+        assertNull(form.getName());
+        assertNull(form.getDesc());
+        assertNull(form.getVirtualSqlInstance());
+        assertNull(form.getSsoId());
+        assertNull(form.getServerName());
+        assertNull(form.getPort());
+        assertEquals(form.getDebug(), TestConstants.NOTAPPLICABLE);
+        assertNull(form.getVersion());
+        assertNull(form.getLocation());
+        assertNull(form.getPort());
+        assertNull(form.getReportType());
+        assertNull(form.getReportTypes());
+        assertNull(form.getServerName());
+        assertEquals(form.isbAllDatabases(), true);
+    }
+
+
+    @Test
+    public void testReportType() throws Exception {
+        FormBean form = new FormBean();
+        form.setReportType(CompRequest.DUS_REPORT);
+        form.setbAllDatabases(true);
+        assertNotNull(form.getReportType());
+        assertEquals(form.getReportType(), CompRequest.DUS_REPORT);
+        assertNull(form.getSearch());
+        assertNull(form.getName());
+        assertNull(form.getDesc());
+        assertNull(form.getVirtualSqlInstance());
+        assertNull(form.getSsoId());
+        assertNull(form.getServerName());
+        assertNull(form.getEmail());
+        assertNull(form.getPort());
+        assertEquals(form.getDebug(), TestConstants.NOTAPPLICABLE);
+        assertNull(form.getVersion());
+        assertNull(form.getLocation());
+        assertNull(form.getPort());
+        assertNull(form.getReportTypes());
+        assertNull(form.getServerName());
+        assertEquals(form.isbAllDatabases(), true);
+    }
+
+
+    @Test
+    public void testDebug() throws Exception {
+        FormBean form = new FormBean();
+        form.setbAllDatabases(true);
+        assertNull(form.getSsoId());
+        assertNull(form.getSearch());
+        assertNull(form.getName());
+        assertNull(form.getDesc());
+        assertNull(form.getVirtualSqlInstance());
+        assertNull(form.getReportType());
+        assertNull(form.getServerName());
+        assertNull(form.getEmail());
+        assertNull(form.getPort());
+        assertEquals(form.getDebug(), TestConstants.NOTAPPLICABLE);
+        assertNull(form.getVersion());
+        assertNull(form.getLocation());
+        assertNull(form.getPort());
+        assertNull(form.getReportType());
+        assertNull(form.getReportTypes());
+        assertNull(form.getServerName());
+        assertEquals(form.isbAllDatabases(), true);
+    }
+
+
+    @Test
+    public void testSsoId() throws Exception {
+        FormBean form = new FormBean();
+        form.setSsoId(TestConstants.TEST_SSO);
+        form.setbAllDatabases(true);
+        assertNotNull(form.getSsoId());
+        assertEquals(form.getSsoId(), TestConstants.TEST_SSO);
+        assertNull(form.getSearch());
+        assertNull(form.getName());
+        assertNull(form.getDesc());
+        assertNull(form.getVirtualSqlInstance());
+        assertNull(form.getReportType());
+        assertNull(form.getServerName());
+        assertNull(form.getEmail());
+        assertNull(form.getPort());
+        assertEquals(form.getDebug(), TestConstants.NOTAPPLICABLE);
+        assertNull(form.getVersion());
+        assertNull(form.getLocation());
+        assertNull(form.getPort());
+        assertNull(form.getReportType());
+        assertNull(form.getReportTypes());
+        assertNull(form.getServerName());
+        assertEquals(form.isbAllDatabases(), true);
+    }
+
+
+    @Test
+    public void testReportTypes() throws Exception {
+        FormBean form = new FormBean();
+        List<LabelValueBean> list = TestUtil.getLabelValueBeans();
+        form.setReportTypes(list);
+        form.setbAllDatabases(true);
+        assertNotNull(form.getReportTypes());
+        assertNull(form.getSsoId());
+        assertNull(form.getSearch());
+        assertNull(form.getName());
+        assertNull(form.getDesc());
+        assertNull(form.getVirtualSqlInstance());
+        assertNull(form.getReportType());
+        assertNull(form.getServerName());
+        assertNull(form.getEmail());
+        assertNull(form.getPort());
+        assertEquals(form.getDebug(), TestConstants.NOTAPPLICABLE);
+        assertNull(form.getVersion());
+        assertNull(form.getLocation());
+        assertNull(form.getPort());
+        assertNull(form.getReportType());
+        assertNull(form.getServerName());
+        assertEquals(form.isbAllDatabases(), true);
+    }
+} 

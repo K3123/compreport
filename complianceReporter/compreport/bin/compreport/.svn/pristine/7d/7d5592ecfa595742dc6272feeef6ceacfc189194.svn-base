@@ -1,0 +1,9 @@
+package com.ge.capital.compliancereport.domain;
+
+
+public enum DBProcessType {
+    SINGLE,
+    MULTIPLE,
+    ALL,
+    NONE
+}

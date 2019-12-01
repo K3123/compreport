@@ -1,0 +1,50 @@
+# *-- c3p0 properties (http://www.mchange.com/projects/c3p0/index.html#configuration) --*
+#Minimum number of Connections a pool will maintain at any given time.
+c3p0.minPoolSize=5
+
+#Number of Connections a pool will try to acquire upon startup. Should be between minPoolSize and maxPoolSize
+c3p0.initialPoolSize=5
+
+#Maximum number of Connections a pool will maintain at any given time
+c3p0.maxPoolSize=10
+
+#Zero means idle connections will never expire. Connections will not expire no matter how long they are idle
+#Removing connection every 3600 seconds (1 hour) is a happy medium
+c3p0.maxIdleTime=3600
+
+#Set this in addition to maxIdleTime to have the Connections removed from the pool and returned to the DB.
+c3p0.maxIdleTimeExcessConnections=300
+
+#If a Connection is used for longer than an hour, then C3P0 will assume it’s been orphaned and will reclaim the
+#Connection to the pool – closing it in the process
+c3p0.unreturnedConnectionTimeout=3600
+
+#Determines how many connections at a time c3p0 will try to acquire when the pool is exhausted
+c3p0.acquireIncrement=5
+
+#The size of c3p0's global PreparedStatement cache. If both maxStatements and
+#maxStatementsPerConnection are zero, statement caching will not be enabled.
+c3p0.maxStatements=0
+
+#The number of PreparedStatements c3p0 will cache for a single pooled Connection.
+c3p0.maxStatementsPerConnection=0
+
+#c3p0 will dev all idle, pooled but unchecked-out connections, (24 hours and 1 mins)
+c3p0.idleConnectionTestPeriod=21600
+
+#Defines how many times c3p0 will try to acquire a new Connection from the database before giving up.
+c3p0.acquireRetryAttempts=30
+
+#c3p0 will wait 500ms between acquire attempts
+c3p0.acquireRetryDelay=500
+
+#The query that will be executed for all connection tests
+c3p0.preferredTestQuery=select 1 from DUAL
+
+#If true, an operation will be performed asynchronously at every connection checkin to verify that the connection is valid.
+#Use in combination with idleConnectionTestPeriod for quite reliable
+c3p0.testConnectionOnCheckin=true
+
+
+#A Connection older than 6 hours will be destroyed and purged from the pool
+c3p0.maxConnectionAge=21600

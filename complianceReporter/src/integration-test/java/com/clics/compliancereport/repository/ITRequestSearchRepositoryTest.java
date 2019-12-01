@@ -1,0 +1,69 @@
+package com.clics.compliancereport.repository;
+
+
+import com.clics.compliancereport.common.AbstractTestCase;
+import com.clics.compliancereport.common.TestUtil;
+import com.clics.compliancereport.domain.CompRequest;
+import com.github.dandelion.datatables.core.ajax.DatatablesCriterias;
+import com.github.springtestdbunit.annotation.DatabaseSetup;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
+
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+
+
+@DatabaseSetup("/META-INF/comprequest-dataset-sql.xml")
+public class ITRequestSearchRepositoryTest extends AbstractTestCase {
+    private static final Logger LOG = LoggerFactory.getLogger(ITRequestSearchRepositoryTest.class);
+    @Autowired
+    private RequestSearchRepository requestSearchRepository;
+    private DatatablesCriterias datatablesCriterias;
+
+    @Before
+    public void onSetup(){
+        datatablesCriterias = TestUtil.getSampleDatatablesCriterias();
+    }
+
+    @After
+    public void onTearDown() {
+        datatablesCriterias = null;
+    }
+
+    @Test
+    public void testFindRequestsWithDatatablesCriterias(){
+        List<CompRequest> list = requestSearchRepository.findRequestsWithDatatablesCriterias(datatablesCriterias);
+        assertThat(list, is(notNullValue()));
+        assertThat("list is empty", list.size() != 0);
+    }
+
+    @Test
+    public void testGetFilteredCount(){
+        Long count = requestSearchRepository.getFilteredCount(datatablesCriterias);
+        assertThat("filtered count is 0", count != 0);
+    }
+
+
+    @Test
+    public void testGetTotalCount(){
+        Long count = requestSearchRepository.getTotalCount();
+        assertThat("total count is 0", count != 0);
+    }
+
+
+    @Test
+    public void testFindAll(){
+        List<CompRequest> list = requestSearchRepository.findAll();
+        assertThat(list, is(notNullValue()));
+        assertThat("list is empty", list.size() != 0);
+    }
+
+
+}

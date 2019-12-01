@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/mvc
+                           http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+                           http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+
+    <!-- **************************************************************** -->
+    <!--  RESOURCE FOLDERS CONFIGURATION                                  -->
+    <!--  Dispatcher configuration for serving static resources           -->
+    <!-- **************************************************************** -->
+    <mvc:resources location="/bootstrap/" mapping="/bootstrap/**" />
+    <mvc:resources location="/select2/" mapping="/select2/**" />
+    <mvc:resources location="/css/" mapping="/css/**" />
+    <mvc:resources location="/js/" mapping="/js/**" />
+    <mvc:resources location="/images/" mapping="/images/**" />
+    <mvc:resources location="/font/" mapping="/font/**" />
+
+
+    <!-- **************************************************************** -->
+    <!--  SPRING ANNOTATION PROCESSING                                    -->
+    <!-- **************************************************************** -->
+    <!-- Configures the @Controller programming model -->
+    <mvc:annotation-driven content-negotiation-manager="contentNegotiationManager">
+     <mvc:argument-resolvers>
+        <bean class="com.github.dandelion.datatables.extras.spring3.ajax.DatatablesCriteriasResolver" />
+     </mvc:argument-resolvers>
+    </mvc:annotation-driven>
+
+
+    <context:component-scan base-package="com.ge.capital.compliancereport.web" />
+
+
+    <bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+        <property name="favorPathExtension" value="false" />
+        <property name="favorParameter" value="false" />
+        <property name="ignoreAcceptHeader" value="false"/>
+        <property name="mediaTypes" >
+            <value>
+                json=application/json
+                xml=application/xml
+                html=text/html
+            </value>
+        </property>
+        <property name="defaultContentType" value="application/json">
+        </property>
+    </bean>
+
+
+    <!-- **************************************************************** -->
+    <!--  MESSAGE EXTERNALIZATION/INTERNATIONALIZATION                    -->
+    <!--  Standard Spring MessageSource implementation                    -->
+    <!-- **************************************************************** -->
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+    <property name="basename" value="Messages" />
+    </bean>
+
+
+    <!-- Basic view resolver -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/pages/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/ping"/>
+            <mvc:exclude-mapping path="/list"/>
+            <mvc:exclude-mapping path="/error"/>
+            <mvc:exclude-mapping path="/logout"/>
+            <mvc:exclude-mapping path="/bootstrap/**"/>
+            <mvc:exclude-mapping path="/select2/**"/>
+            <mvc:exclude-mapping path="/css/**"/>
+            <mvc:exclude-mapping path="/js/**"/>
+            <mvc:exclude-mapping path="/images/**"/>
+            <mvc:exclude-mapping path="/font/**"/>
+            <bean class="com.ge.capital.compliancereport.web.interceptor.AuthInterceptor">
+                <property name="bFakeUserActivated" value="false"/>
+            </bean>
+
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+</beans>
+
+

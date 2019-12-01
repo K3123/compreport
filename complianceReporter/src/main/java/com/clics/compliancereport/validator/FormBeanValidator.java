@@ -1,0 +1,58 @@
+package com.clics.compliancereport.validator;
+
+
+import com.clics.compliancereport.bean.FormBean;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Component;
+import org.springframework.validation.Errors;
+import org.springframework.validation.ValidationUtils;
+import org.springframework.validation.Validator;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+@Component
+public class FormBeanValidator implements Validator {
+    private static final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+    private static final String SSOID_PATTERN = "\\d{9}";
+
+    @Override
+    public boolean supports(Class<?> aClass) {
+        return FormBean.class.isAssignableFrom(aClass);
+    }
+
+    @Override
+    public void validate(Object o, Errors errors) {
+        FormBean formBean = (FormBean) o;
+
+        //these fields cannot be empty
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "ssoId", "ssoId.required", "SSO Id is a required field");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "reportType", "reportType.required", "Report Type is a required field");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "email.required", "Email is a required field");
+
+
+        //if all databases wasn't selected then these fields are required
+        if (!formBean.isbAllDatabases()) {
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "name.required", "database name is a required field");
+        }
+
+        //if value is not empty then it must be a 9-digit number
+        if(StringUtils.isNotEmpty(formBean.getSsoId()))  {
+           Pattern p = Pattern.compile(SSOID_PATTERN);
+           Matcher m = p.matcher(formBean.getSsoId().trim());
+           if(!m.matches()){
+               errors.rejectValue("ssoId", "ssoId.invalid");
+           }
+        }
+
+        //check if email is well formed
+        if(StringUtils.isNotEmpty(formBean.getEmail()))  {
+            Pattern p = Pattern.compile(EMAIL_PATTERN);
+            Matcher m = p.matcher(formBean.getEmail().trim());
+            if(!m.matches()){
+                errors.rejectValue("email", "email.invalid");
+            }
+        }
+
+    }
+}

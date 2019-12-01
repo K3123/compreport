@@ -1,0 +1,357 @@
+package com.clics.compliancereport.domain;
+
+
+import com.clics.compliancereport.bean.FormBean;
+import com.clics.compliancereport.common.TestConstants;
+import com.clics.compliancereport.common.TestUtil;
+import com.clics.compliancereport.util.MiscUtil;
+import org.junit.Test;
+
+import static junit.framework.Assert.*;
+
+public class CompRequestTest {
+
+    @Test
+    public void testDBProcessTypeSingle() {
+        CompRequest built = CompRequest.getBuilder(DBProcessType.SINGLE).build();
+        assertNull(built.getUsage());
+        assertNull(built.getVirtualSqlInstance());
+        assertNull(built.getDatabaseName());
+        assertTrue(built.getDatabaseNames().isEmpty());
+        assertNull(built.getEmailAddress());
+        assertNull(built.getId());
+        assertNull(built.getComReportType());
+        assertEquals(built.getInsertedBy(), CompRequest.INSERTED_BY);
+        assertEquals(built.getUpdatedBy(), CompRequest.UPDATED_BY);
+        assertNotNull(built.getReportDateStr());
+        assertEquals(built.getReportType(), CompRequest.REPORT_TYPE);
+        assertEquals(built.getRequestStatus(), CompRequest.REQUEST_STATUS);
+        assertNull(built.getSsoId());
+        assertNotNull(built.getReportDate());
+        assertNotNull(built.getDbProcessType());
+        assertEquals(built.getDbProcessType(), DBProcessType.SINGLE);
+    }
+
+    @Test
+    public void testDBProcessTypeMultiple() {
+        CompRequest built = CompRequest.getBuilder(DBProcessType.MULTIPLE).build();
+        assertNull(built.getUsage());
+        assertNull(built.getVirtualSqlInstance());
+        assertNull(built.getDatabaseName());
+        assertTrue(built.getDatabaseNames().isEmpty());
+        assertNull(built.getEmailAddress());
+        assertNull(built.getId());
+        assertNull(built.getComReportType());
+        assertEquals(built.getInsertedBy(), CompRequest.INSERTED_BY);
+        assertEquals(built.getUpdatedBy(), CompRequest.UPDATED_BY);
+        assertNotNull(built.getReportDateStr());
+        assertEquals(built.getReportType(), CompRequest.REPORT_TYPE);
+        assertEquals(built.getRequestStatus(), CompRequest.REQUEST_STATUS);
+        assertNull(built.getSsoId());
+        assertNotNull(built.getReportDate());
+        assertNotNull(built.getDbProcessType());
+        assertEquals(built.getDbProcessType(), DBProcessType.MULTIPLE);
+    }
+
+    @Test
+    public void testDBProcessTypeAll() {
+        CompRequest built = CompRequest.getBuilder(DBProcessType.ALL).build();
+        assertNull(built.getUsage());
+        assertNull(built.getVirtualSqlInstance());
+        assertNull(built.getDatabaseName());
+        assertTrue(built.getDatabaseNames().isEmpty());
+        assertNull(built.getEmailAddress());
+        assertNull(built.getId());
+        assertNull(built.getComReportType());
+        assertEquals(built.getInsertedBy(), CompRequest.INSERTED_BY);
+        assertEquals(built.getUpdatedBy(), CompRequest.UPDATED_BY);
+        assertNotNull(built.getReportDateStr());
+        assertEquals(built.getReportType(), CompRequest.REPORT_TYPE);
+        assertEquals(built.getRequestStatus(), CompRequest.REQUEST_STATUS);
+        assertNull(built.getSsoId());
+        assertNotNull(built.getReportDate());
+        assertNotNull(built.getDbProcessType());
+        assertEquals(built.getDbProcessType(), DBProcessType.ALL);
+    }
+
+    @Test
+    public void testDBProcessTypeNone() {
+        CompRequest built = CompRequest.getBuilder(DBProcessType.NONE).build();
+        assertNull(built.getUsage());
+        assertNull(built.getVirtualSqlInstance());
+        assertNull(built.getDatabaseName());
+        assertTrue(built.getDatabaseNames().isEmpty());
+        assertNull(built.getEmailAddress());
+        assertNull(built.getId());
+        assertNull(built.getComReportType());
+        assertEquals(built.getInsertedBy(), CompRequest.INSERTED_BY);
+        assertEquals(built.getUpdatedBy(), CompRequest.UPDATED_BY);
+        assertNotNull(built.getReportDateStr());
+        assertEquals(built.getReportType(), CompRequest.REPORT_TYPE);
+        assertEquals(built.getRequestStatus(), CompRequest.REQUEST_STATUS);
+        assertNull(built.getSsoId());
+        assertNotNull(built.getReportDate());
+        assertNotNull(built.getDbProcessType());
+        assertEquals(built.getDbProcessType(), DBProcessType.NONE);
+    }
+
+    @Test
+    public void testDBProcessTypeSingleUsage() {
+        CompRequest built = CompRequest.getBuilder(DBProcessType.SINGLE).usage(TestConstants.DB_TEST_USAGE1).build();
+        assertEquals(built.getUsage(), TestConstants.DB_TEST_USAGE1);
+        assertNull(built.getVirtualSqlInstance());
+        assertNull(built.getDatabaseName());
+        assertTrue(built.getDatabaseNames().isEmpty());
+        assertNull(built.getEmailAddress());
+        assertNull(built.getId());
+        assertNull(built.getComReportType());
+        assertEquals(built.getInsertedBy(), CompRequest.INSERTED_BY);
+        assertEquals(built.getUpdatedBy(), CompRequest.UPDATED_BY);
+        assertNotNull(built.getReportDateStr());
+        assertEquals(built.getReportType(), CompRequest.REPORT_TYPE);
+        assertEquals(built.getRequestStatus(), CompRequest.REQUEST_STATUS);
+        assertNull(built.getSsoId());
+        assertNotNull(built.getReportDate());
+        assertNotNull(built.getDbProcessType());
+        assertEquals(built.getDbProcessType(), DBProcessType.SINGLE);
+    }
+
+    @Test
+    public void testDBProcessTypeSingleUsageVirtualSqlInstance() {
+        CompRequest built = CompRequest.getBuilder(DBProcessType.SINGLE).usage(TestConstants.DB_TEST_USAGE1)
+                .virtualSqlInstance(TestConstants.DB_TEST_VSI).build();
+        assertEquals(built.getUsage(), TestConstants.DB_TEST_USAGE1);
+        assertEquals(built.getVirtualSqlInstance(), TestConstants.DB_TEST_VSI);
+        assertNull(built.getDatabaseName());
+        assertTrue(built.getDatabaseNames().isEmpty());
+        assertNull(built.getEmailAddress());
+        assertNull(built.getId());
+        assertNull(built.getComReportType());
+        assertEquals(built.getInsertedBy(), CompRequest.INSERTED_BY);
+        assertEquals(built.getUpdatedBy(), CompRequest.UPDATED_BY);
+        assertNotNull(built.getReportDateStr());
+        assertEquals(built.getReportType(), CompRequest.REPORT_TYPE);
+        assertEquals(built.getRequestStatus(), CompRequest.REQUEST_STATUS);
+        assertNull(built.getSsoId());
+        assertNotNull(built.getReportDate());
+        assertNotNull(built.getDbProcessType());
+        assertEquals(built.getDbProcessType(), DBProcessType.SINGLE);
+    }
+
+    @Test
+    public void testDBProcessTypeSingleUsageVirtualSqlInstanceDatabaseName() {
+        CompRequest built = CompRequest.getBuilder(DBProcessType.SINGLE).usage(TestConstants.DB_TEST_USAGE1)
+                .virtualSqlInstance(TestConstants.DB_TEST_VSI).databaseName(TestConstants.DB_TEST_NAME).build();
+        assertEquals(built.getUsage(), TestConstants.DB_TEST_USAGE1);
+        assertEquals(built.getVirtualSqlInstance(), TestConstants.DB_TEST_VSI);
+        assertEquals(built.getDatabaseName(), TestConstants.DB_TEST_NAME);
+        assertTrue(built.getDatabaseNames().isEmpty());
+        assertNull(built.getEmailAddress());
+        assertNull(built.getId());
+        assertNull(built.getComReportType());
+        assertEquals(built.getInsertedBy(), CompRequest.INSERTED_BY);
+        assertEquals(built.getUpdatedBy(), CompRequest.UPDATED_BY);
+        assertNotNull(built.getReportDateStr());
+        assertEquals(built.getReportType(), CompRequest.REPORT_TYPE);
+        assertEquals(built.getRequestStatus(), CompRequest.REQUEST_STATUS);
+        assertNull(built.getSsoId());
+        assertNotNull(built.getReportDate());
+        assertNotNull(built.getDbProcessType());
+        assertEquals(built.getDbProcessType(), DBProcessType.SINGLE);
+    }
+
+    @Test
+    public void testDBProcessTypeSingleUsageVirtualSqlInstanceDatabaseNameEmail() {
+        CompRequest built = CompRequest.getBuilder(DBProcessType.SINGLE).usage(TestConstants.DB_TEST_USAGE1)
+                .virtualSqlInstance(TestConstants.DB_TEST_VSI).databaseName(TestConstants.DB_TEST_NAME)
+                .emailAddress(TestConstants.TEST_EMAIL).build();
+        assertEquals(built.getUsage(), TestConstants.DB_TEST_USAGE1);
+        assertEquals(built.getVirtualSqlInstance(), TestConstants.DB_TEST_VSI);
+        assertEquals(built.getDatabaseName(), TestConstants.DB_TEST_NAME);
+        assertTrue(built.getDatabaseNames().isEmpty());
+        assertEquals(built.getEmailAddress(), TestConstants.TEST_EMAIL);
+        assertNull(built.getId());
+        assertNull(built.getComReportType());
+        assertEquals(built.getInsertedBy(), CompRequest.INSERTED_BY);
+        assertEquals(built.getUpdatedBy(), CompRequest.UPDATED_BY);
+        assertNotNull(built.getReportDateStr());
+        assertEquals(built.getReportType(), CompRequest.REPORT_TYPE);
+        assertEquals(built.getRequestStatus(), CompRequest.REQUEST_STATUS);
+        assertNull(built.getSsoId());
+        assertNotNull(built.getReportDate());
+        assertNotNull(built.getDbProcessType());
+        assertEquals(built.getDbProcessType(), DBProcessType.SINGLE);
+    }
+
+    @Test
+    public void testDBProcessTypeSingleUsageVirtualSqlInstanceDatabaseNameEmailId() {
+        CompRequest built = CompRequest.getBuilder(DBProcessType.SINGLE).usage(TestConstants.DB_TEST_USAGE1)
+                .virtualSqlInstance(TestConstants.DB_TEST_VSI).databaseName(TestConstants.DB_TEST_NAME)
+                .emailAddress(TestConstants.TEST_EMAIL).id(TestConstants.DB_TEST_ID).build();
+        assertEquals(built.getUsage(), TestConstants.DB_TEST_USAGE1);
+        assertEquals(built.getVirtualSqlInstance(), TestConstants.DB_TEST_VSI);
+        assertEquals(built.getDatabaseName(), TestConstants.DB_TEST_NAME);
+        assertTrue(built.getDatabaseNames().isEmpty());
+        assertEquals(built.getEmailAddress(), TestConstants.TEST_EMAIL);
+        assertEquals(built.getId(), TestConstants.DB_TEST_ID);
+        assertNull(built.getComReportType());
+        assertEquals(built.getInsertedBy(), CompRequest.INSERTED_BY);
+        assertEquals(built.getUpdatedBy(), CompRequest.UPDATED_BY);
+        assertNotNull(built.getReportDateStr());
+        assertEquals(built.getReportType(), CompRequest.REPORT_TYPE);
+        assertEquals(built.getRequestStatus(), CompRequest.REQUEST_STATUS);
+        assertNull(built.getSsoId());
+        assertNotNull(built.getReportDate());
+        assertNotNull(built.getDbProcessType());
+        assertEquals(built.getDbProcessType(), DBProcessType.SINGLE);
+    }
+
+    @Test
+    public void testDBProcessTypeSingleUsageVirtualSqlInstanceDatabaseNameEmailIdSsoId() {
+        CompRequest built = CompRequest.getBuilder(DBProcessType.SINGLE).usage(TestConstants.DB_TEST_USAGE1)
+                .virtualSqlInstance(TestConstants.DB_TEST_VSI).databaseName(TestConstants.DB_TEST_NAME)
+                .emailAddress(TestConstants.TEST_EMAIL).id(TestConstants.DB_TEST_ID).ssoId(TestConstants.TEST_SSO).build();
+        assertEquals(built.getUsage(), TestConstants.DB_TEST_USAGE1);
+        assertEquals(built.getVirtualSqlInstance(), TestConstants.DB_TEST_VSI);
+        assertEquals(built.getDatabaseName(), TestConstants.DB_TEST_NAME);
+        assertTrue(built.getDatabaseNames().isEmpty());
+        assertEquals(built.getEmailAddress(), TestConstants.TEST_EMAIL);
+        assertEquals(built.getId(), TestConstants.DB_TEST_ID);
+        assertNull(built.getComReportType());
+        assertEquals(built.getInsertedBy(), CompRequest.INSERTED_BY);
+        assertEquals(built.getUpdatedBy(), CompRequest.UPDATED_BY);
+        assertNotNull(built.getReportDateStr());
+        assertEquals(built.getReportType(), CompRequest.REPORT_TYPE);
+        assertEquals(built.getRequestStatus(), CompRequest.REQUEST_STATUS);
+        assertEquals(built.getSsoId(), TestConstants.TEST_SSO);
+        assertNotNull(built.getReportDate());
+        assertNotNull(built.getDbProcessType());
+        assertEquals(built.getDbProcessType(), DBProcessType.SINGLE);
+    }
+
+    @Test
+    public void testPopulate(){
+        FormBean formBean = TestUtil.createFormBean();
+        CompRequest built = MiscUtil.populateCompRequest(formBean);
+
+        assertNull(built.getUsage());
+        assertNull(built.getVirtualSqlInstance());
+        assertEquals(built.getDatabaseName(), TestConstants.DB_TEST_NAME1);
+        assertTrue(built.getDatabaseNames().isEmpty());
+        assertEquals(built.getEmailAddress(), TestConstants.TEST_EMAIL);
+        assertNull(built.getId());
+        assertEquals(built.getComReportType(), CompRequest.DUS_REPORT);
+        assertEquals(built.getInsertedBy(), CompRequest.INSERTED_BY);
+        assertEquals(built.getUpdatedBy(), CompRequest.UPDATED_BY);
+        assertNotNull(built.getReportDateStr());
+        assertEquals(built.getReportType(), CompRequest.REPORT_TYPE);
+        assertEquals(built.getRequestStatus(), CompRequest.REQUEST_STATUS);
+        assertEquals(built.getSsoId(), TestConstants.TEST_SSO);
+        assertNull(built.getReportDate());
+        assertNotNull(built.getDbProcessType());
+        assertEquals(built.getDbProcessType(), DBProcessType.SINGLE);
+    }
+
+
+    @Test
+    public void testPopulateMultiple(){
+        FormBean formBean = TestUtil.createFormBeanMultiple();
+        CompRequest built = MiscUtil.populateCompRequest(formBean);
+
+        assertNull(built.getUsage());
+        assertNull(built.getVirtualSqlInstance());
+        assertEquals(built.getDatabaseName(), TestConstants.MULTIPLE_DB_NAMES);
+        assertTrue(built.getDatabaseNames().isEmpty());
+        assertEquals(built.getEmailAddress(), TestConstants.TEST_EMAIL);
+        assertNull(built.getId());
+        assertEquals(built.getComReportType(), CompRequest.DUS_REPORT);
+        assertEquals(built.getInsertedBy(), CompRequest.INSERTED_BY);
+        assertEquals(built.getUpdatedBy(), CompRequest.UPDATED_BY);
+        assertNotNull(built.getReportDateStr());
+        assertEquals(built.getReportType(), CompRequest.REPORT_TYPE);
+        assertEquals(built.getRequestStatus(), CompRequest.REQUEST_STATUS);
+        assertEquals(built.getSsoId(), TestConstants.TEST_SSO);
+        assertNull(built.getReportDate());
+        assertNotNull(built.getDbProcessType());
+        assertEquals(built.getDbProcessType(), DBProcessType.MULTIPLE);
+    }
+
+    @Test
+    public void testPopulateAll(){
+        FormBean formBean = TestUtil.createFormBeanAllDB();
+        CompRequest built = MiscUtil.populateCompRequest(formBean);
+
+        assertNull(built.getUsage());
+        assertNull(built.getVirtualSqlInstance());
+        assertNull(built.getDatabaseName());
+        assertEquals(built.getEmailAddress(), TestConstants.TEST_EMAIL);
+        assertNull(built.getId());
+        assertEquals(built.getComReportType(), CompRequest.DUS_REPORT);
+        assertEquals(built.getInsertedBy(), CompRequest.INSERTED_BY);
+        assertEquals(built.getUpdatedBy(), CompRequest.UPDATED_BY);
+        assertNotNull(built.getReportDateStr());
+        assertEquals(built.getReportType(), CompRequest.REPORT_TYPE);
+        assertEquals(built.getRequestStatus(), CompRequest.REQUEST_STATUS);
+        assertEquals(built.getSsoId(), TestConstants.TEST_SSO);
+        assertNull(built.getReportDate());
+        assertNotNull(built.getDbProcessType());
+        assertEquals(built.getDbProcessType(), DBProcessType.ALL);
+    }
+
+
+    @Test
+    public void testDuplicate(){
+          CompRequest compRequest =  CompRequest.getBuilder(DBProcessType.SINGLE)
+                                                .ssoId(TestConstants.TEST_SSO)
+                                                .emailAddress(TestConstants.TEST_EMAIL)
+                                                .databaseName(TestConstants.DB_TEST_NAME1)
+                                                .usage(TestConstants.DB_TEST_USAGE1)
+                                                .virtualSqlInstance(TestConstants.DB_TEST_VSI)
+                                                .id(TestConstants.DB_TEST_ID)
+                                                .bAllDatabases(false)
+                                                .reportType(CompRequest.REPORT_TYPE)
+                                                .comReportType(CompRequest.DUS_REPORT)
+                                                .build();
+
+        CompRequest dupCompRequest = compRequest.duplicate();
+
+        assertEquals(compRequest.getComReportType(), dupCompRequest.getComReportType());
+        assertEquals(compRequest.getUsage(), dupCompRequest.getUsage());
+        assertEquals(compRequest.getDatabaseName(), dupCompRequest.getDatabaseName());
+        assertEquals(compRequest.getEmailAddress(), dupCompRequest.getEmailAddress());
+        assertEquals(compRequest.getId(), dupCompRequest.getId());
+        assertEquals(compRequest.getInsertedBy(), dupCompRequest.getInsertedBy());
+        assertEquals(compRequest.getUpdatedBy(), dupCompRequest.getUpdatedBy());
+        assertEquals(compRequest.isbAllDatabases(), dupCompRequest.isbAllDatabases());
+        assertEquals(compRequest.getReportDate(), dupCompRequest.getReportDate());
+        assertEquals(compRequest.getReportType(), dupCompRequest.getReportType());
+        assertEquals(compRequest.getRequestStatus(), dupCompRequest.getRequestStatus());
+        assertEquals(compRequest.getSsoId(), dupCompRequest.getSsoId());
+        assertEquals(compRequest.getVirtualSqlInstance(), dupCompRequest.getVirtualSqlInstance());
+        assertEquals(compRequest.getDbProcessType(), dupCompRequest.getDbProcessType());
+    }
+
+    @Test
+    public void testToString(){
+        CompRequest compRequest =  CompRequest.getBuilder(DBProcessType.SINGLE)
+                .ssoId(TestConstants.TEST_SSO)
+                .emailAddress(TestConstants.TEST_EMAIL)
+                .databaseName(TestConstants.DB_TEST_NAME1)
+                .usage(TestConstants.DB_TEST_USAGE1)
+                .virtualSqlInstance(TestConstants.DB_TEST_VSI)
+                .id(TestConstants.DB_TEST_ID)
+                .bAllDatabases(false)
+                .reportType(CompRequest.REPORT_TYPE)
+                .comReportType(CompRequest.DUS_REPORT)
+                .build();
+        assertTrue(compRequest.toString().contains(TestConstants.TEST_SSO));
+        assertTrue(compRequest.toString().contains(TestConstants.TEST_EMAIL));
+        assertTrue(compRequest.toString().contains(TestConstants.DB_TEST_NAME1));
+        assertTrue(compRequest.toString().contains(TestConstants.DB_TEST_USAGE1));
+        assertTrue(compRequest.toString().contains(TestConstants.DB_TEST_VSI));
+        assertTrue(compRequest.toString().contains(CompRequest.DUS_REPORT));
+        assertTrue(compRequest.toString().contains(CompRequest.REPORT_TYPE));
+
+    }
+
+}

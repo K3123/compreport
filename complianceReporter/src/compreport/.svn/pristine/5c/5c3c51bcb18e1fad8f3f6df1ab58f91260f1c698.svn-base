@@ -1,0 +1,31 @@
+package com.ge.capital.compliancereport.repository;
+
+
+import com.ge.capital.compliancereport.common.AbstractTestCase;
+import com.ge.capital.compliancereport.common.TestConstants;
+import com.ge.capital.compliancereport.domain.CompRequest;
+import com.github.springtestdbunit.annotation.DatabaseSetup;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
+
+
+@DatabaseSetup("/META-INF/comprequest-dataset-sql.xml")
+public class CompRequestRepositoryTest extends AbstractTestCase {
+
+    @Autowired
+    CompRequestRepository compRequestRepository;
+
+
+    @Test
+    public void testGetAllRequests() {
+        List<CompRequest> requestList = compRequestRepository.getRequestsBySSOId(TestConstants.TEST_SSO);
+        assertThat(requestList, is(notNullValue()));
+        assertThat("size is not what we expect", requestList.size() == 1);
+    }
+}

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+	<!-- Appenders -->
+	<appender name="console" class="org.apache.log4j.ConsoleAppender">
+		<param name="Target" value="System.out" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="==> %d{dd-MMM-yyyy-HH:MM:ss} [%-5p] %c - %m%n" />
+		</layout>
+	</appender>
+
+	<!-- application Logger -->
+	<logger name="com.clics.compliancereport">
+        <level value="debug" />
+    </logger>
+
+    <logger name="com.clics.compliancereport.service">
+        <level value="debug" />
+    </logger>
+
+	<logger name="com.clics.compliancereport.web.listener">
+        <level value="debug" />
+    </logger>
+
+    <logger name="com.github.dandelion.datatables">
+        <level value="debug" />
+    </logger>
+
+	<logger name="org.springframework">
+		<level value="info" />
+	</logger>
+
+    <!-- Hibernate -->
+	<logger name="org.hibernate">
+		<level value="info"/>
+	</logger>
+
+	<!-- Jasypt encryption -->
+    <logger name="org.jasypt.spring31.properties">
+        <level value="info" />
+    </logger>
+
+	<logger name="javax.xml.bind">
+		<level value="info" />
+	</logger>
+
+	<!-- C3P0 logger -->
+	<logger name="com.mchange.v2.c3p0">
+		<level value="info" />
+	</logger>
+
+	<logger name="oracle.jdbc.driver">
+		<level value="info" />
+	</logger>
+
+    <logger name="org.dbunit">
+        <level value="info" />
+    </logger>
+
+    <root>
+        <priority value="debug" />
+        <appender-ref ref="console" />
+    </root>
+
+</log4j:configuration>

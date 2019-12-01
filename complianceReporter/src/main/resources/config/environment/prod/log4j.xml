@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+	<!-- Appenders -->
+	<appender name="ConsoleAppender" class="org.apache.log4j.ConsoleAppender">
+		<param name="Target" value="System.out" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="==> %d{dd-MMM-yyyy-HH:MM:ss} [%-5p] %c - %m%n" />
+		</layout>
+	</appender>
+
+    <appender name="RollingAppender" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="${catalina.base}/logs/compreport.log" />
+        <param name="DatePattern" value="'_'yyyy-MM-dd" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="==> %d{dd-MMM-yyyy-HH:MM:ss} [%-5p] %c - %m%n"/>
+        </layout>
+    </appender>
+
+	<!-- application Logger -->
+	<logger name="com.clics.compliancereport">
+        <level value="debug" />
+    </logger>
+
+    <logger name="org.hibernate.tool.hbm2ddl">
+        <level value="info" />
+    </logger>
+
+
+    <logger name="org.hibernate.tool.hbm2ddl">
+        <level value="error" />
+    </logger>
+
+    <logger name="com.github.dandelion.datatables">
+        <level value="error" />
+    </logger>
+
+    <logger name="org.apache.commons">
+        <level value="error" />
+    </logger>
+
+    <logger name="org.springframework">
+        <level value="error" />
+	</logger>
+
+    <logger name="org.dbunit">
+        <level value="error" />
+    </logger>
+
+    <!-- Hibernate -->
+    <logger name="org.hibernate">
+        <level value="error"/>
+    </logger>
+
+    <logger name="org.hibernate.tool.hbm2ddl">
+        <level value="error" />
+    </logger>
+
+    <!-- Jasypt encryption -->
+    <logger name="org.jasypt.spring31.properties">
+        <level value="error" />
+    </logger>
+
+    <logger name="javax.xml.bind">
+        <level value="error" />
+    </logger>
+
+    <!-- C3P0 logger -->
+    <logger name="com.mchange.v2.c3p0">
+        <level value="info" />
+    </logger>
+
+    <!-- To see all sql statements  -->
+    <logger name="java.sql">
+        <level value="info" />
+    </logger>
+
+    <logger name="oracle.jdbc.driver">
+        <level value="info" />
+    </logger>
+
+    <root>
+        <priority value="error" />
+        <appender-ref ref="ConsoleAppender" />
+        <appender-ref ref="RollingAppender" />
+    </root>
+
+</log4j:configuration>

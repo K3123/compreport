@@ -1,0 +1,130 @@
+package com.ge.capital.compliancereport.web.controller;
+
+import com.ge.capital.compliancereport.bean.LabelValueBean;
+import com.ge.capital.compliancereport.common.Constants;
+import com.ge.capital.compliancereport.common.TestConstants;
+import com.ge.capital.compliancereport.common.TestUtil;
+import com.ge.capital.compliancereport.domain.CompRequest;
+import com.ge.capital.compliancereport.domain.UserCredential;
+import com.ge.capital.compliancereport.service.CompRequestService;
+import com.github.dandelion.datatables.core.ajax.DataSet;
+import com.github.dandelion.datatables.core.ajax.DatatablesCriterias;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.test.util.ReflectionTestUtils;
+import org.springframework.validation.support.BindingAwareModelMap;
+
+import java.util.List;
+
+import static junit.framework.Assert.assertTrue;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.*;
+
+
+@RunWith(MockitoJUnitRunner.class)
+public class RequestControllerTest {
+
+    @Mock
+    CompRequestService compRequestServiceMock;
+    @InjectMocks
+    RequestController requestController;
+    @Mock
+    MockHttpServletRequest httpServletRequestMock;
+
+
+    @Before
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
+        requestController = new RequestController();
+        httpServletRequestMock = mock(MockHttpServletRequest.class);
+        ReflectionTestUtils.setField(requestController, "compRequestService", compRequestServiceMock);
+    }
+
+
+    @Test
+    public void testShowRequestStatusPage() {
+        BindingAwareModelMap model = new BindingAwareModelMap();
+
+        //given
+        List<CompRequest> requests = TestUtil.getTestRequests();
+        UserCredential credential = TestUtil.createUserCredential();
+        //when
+        when(compRequestServiceMock.getRequestsBySSOId(TestConstants.TEST_SSO)).thenReturn(requests);
+        when(httpServletRequestMock.getAttribute(Constants.CREDENTIAL_KEY)).thenReturn(credential);
+        //then
+        String view = requestController.showRequestStatusPage(model, httpServletRequestMock);
+        verify(compRequestServiceMock, times(1)).getRequestsBySSOId(TestConstants.TEST_SSO);
+        verifyNoMoreInteractions(compRequestServiceMock);
+        assertTrue("views not match", RequestController.REQUESTLIST_VIEW.equals(view));
+        assertEquals(requests, model.asMap().get(RequestController.REQUEST_LIST_KEY));
+    }
+
+    @Test
+    public void testShowRequestStatusPageWithoutCredential() {
+        BindingAwareModelMap model = new BindingAwareModelMap();
+
+        //given
+        List<CompRequest> requests = TestUtil.getTestRequests();
+        UserCredential credential = null;
+        //when
+        when(httpServletRequestMock.getAttribute(Constants.CREDENTIAL_KEY)).thenReturn(credential);
+        //then
+        String view = requestController.showRequestStatusPage(model, httpServletRequestMock);
+        verify(compRequestServiceMock, times(0)).getRequestsBySSOId(TestConstants.TEST_SSO);
+        verifyNoMoreInteractions(compRequestServiceMock);
+        assertTrue("views not match", RequestController.ERROR_VIEW.equals(view));
+    }
+
+
+    @Test
+    public void testGetRequestsBySSOId() {
+        //given
+        List<CompRequest> requests = TestUtil.getTestRequests();
+        //when
+        when(compRequestServiceMock.getRequestsBySSOId(TestConstants.TEST_SSO)).thenReturn(requests);
+        //then
+        verifyZeroInteractions(compRequestServiceMock);
+
+        List<CompRequest> requests2 = compRequestServiceMock.getRequestsBySSOId(TestConstants.TEST_SSO);
+        assertThat(requests2, is(notNullValue()));
+        assertTrue("size don't match", requests.size() == requests2.size());
+    }
+
+
+    @Test
+    public void testReqHeader() {
+        MockHttpServletRequest mockRequest = new MockHttpServletRequest();
+        mockRequest.addHeader("test1", "testValue1");
+        mockRequest.addHeader("test2", "testValue2");
+       List<LabelValueBean> list = requestController.reqHeader(mockRequest);
+        assertThat(list, is(notNullValue()));
+        assertTrue(list.size() == 2);
+    }
+
+
+    @Test
+    public void testGetRequests2() {
+        List<CompRequest> compRequests = TestUtil.getTestRequests();
+        DatatablesCriterias datatablesCriterias = TestUtil.getSampleDatatablesCriterias();
+        DataSet<CompRequest> requestDataSet = new DataSet<CompRequest>(compRequests, 3L, 3L);
+        when(compRequestServiceMock.findRequestsWithDatatablesCriterias(datatablesCriterias)).thenReturn(requestDataSet);
+
+        DataSet<CompRequest> requestDataSet2 = compRequestServiceMock.findRequestsWithDatatablesCriterias(datatablesCriterias);
+        verify(compRequestServiceMock, times(1)).findRequestsWithDatatablesCriterias(datatablesCriterias);
+        verifyNoMoreInteractions(compRequestServiceMock);
+
+        assertThat(requestDataSet2, is(notNullValue()));
+        assertThat(requestDataSet2.getRows(), is(notNullValue()));
+        assertTrue(requestDataSet2.getRows().size() == 3);
+    }
+
+}

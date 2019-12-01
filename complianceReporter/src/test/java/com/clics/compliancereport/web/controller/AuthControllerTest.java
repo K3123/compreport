@@ -1,0 +1,28 @@
+package com.clics.compliancereport.web.controller;
+
+
+import org.junit.Before;
+import org.junit.Test;
+
+import static junit.framework.Assert.assertEquals;
+
+public class AuthControllerTest {
+    private AuthController controller;
+
+    @Before
+    public void setUp() {
+        controller = new AuthController();
+    }
+
+    @Test
+    public void testError() {
+        String view = controller.error();
+        assertEquals(AuthController.ERROR_VIEW, view);
+    }
+
+    @Test
+    public void testLogout() {
+        String view = controller.logout();
+        assertEquals("redirect:"+AuthController.SSO_LOGOUT_URL, view);
+    }
+}

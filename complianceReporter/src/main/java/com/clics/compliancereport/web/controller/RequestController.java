@@ -1,0 +1,84 @@
+package com.clics.compliancereport.web.controller;
+
+import com.clics.compliancereport.bean.LabelValueBean;
+import com.clics.compliancereport.common.Constants;
+import com.clics.compliancereport.domain.CompRequest;
+import com.clics.compliancereport.domain.UserCredential;
+import com.clics.compliancereport.service.CompRequestService;
+import com.github.dandelion.datatables.core.ajax.DataSet;
+import com.github.dandelion.datatables.core.ajax.DatatablesCriterias;
+import com.github.dandelion.datatables.core.ajax.DatatablesResponse;
+import com.github.dandelion.datatables.extras.spring3.ajax.DatatablesParams;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
+
+
+@Controller
+@RequestMapping(method = RequestMethod.GET)
+public class RequestController {
+    private static final Logger LOG = LoggerFactory.getLogger(RequestController.class);
+    public static final String REQUESTLIST_VIEW = "requestlist";
+    public static final String REQUEST_LIST_KEY = "requestList";
+    public static final String ERROR_VIEW = "autherror";
+
+    @Autowired
+    private CompRequestService compRequestService;
+
+    @RequestMapping(value = "/requeststatus", method = RequestMethod.GET)
+    public String showRequestStatusPage(Model model, HttpServletRequest request) {
+        LOG.debug("<<<<< Entering method 'showRequestStatusPage()...");
+        UserCredential userCredential = (UserCredential)request.getAttribute(Constants.CREDENTIAL_KEY);
+        if(userCredential != null){
+            String ssoId = userCredential.getSsoid();
+            model.addAttribute(REQUEST_LIST_KEY, compRequestService.getRequestsBySSOId(ssoId));
+        }else{
+            return  ERROR_VIEW;
+        }
+        return REQUESTLIST_VIEW;
+    }
+
+
+    @RequestMapping(value = "/list")
+    @ResponseBody
+    public List<LabelValueBean> reqHeader(HttpServletRequest request) {
+        LOG.debug("<<<<< Entering 'reqHeader()' method...");
+        List<LabelValueBean> list = new ArrayList<LabelValueBean>();
+
+        Enumeration headerNames = request.getHeaderNames();
+        while(headerNames.hasMoreElements()) {
+            String key = (String)headerNames.nextElement();
+            String value = request.getHeader(key);
+            LabelValueBean valueBean = new LabelValueBean(key, value);
+            list.add(valueBean);
+        }
+        return list;
+    }
+
+    /**
+     * This method will create a JSON string to be send back to a client
+     * @return JSON string of the RequestBean containing requests records
+     */
+    @RequestMapping(value = "/requeststatuslist2")
+    @ResponseBody
+    public DatatablesResponse<CompRequest> getRequests2(@DatatablesParams DatatablesCriterias criterias) {
+        LOG.debug("<<<<< Entering method 'getRequests2()...");
+        DataSet<CompRequest> requests = compRequestService.findRequestsWithDatatablesCriterias(criterias);
+        return DatatablesResponse.build(requests, criterias);
+    }
+
+
+    public void setCompRequestService(CompRequestService compRequestService) {
+        this.compRequestService = compRequestService;
+    }
+}

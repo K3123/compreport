@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+    <bean class="org.jasypt.spring31.properties.EncryptablePropertyPlaceholderConfigurer">
+        <constructor-arg ref="configurationEncryptor" />
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+        <property name="searchSystemEnvironment" value="true"/>
+        <property name="locations">
+            <list>
+  			 <value>classpath:config/environment/${host_env}/db.properties</value>
+              <value>classpath:config/environment/${host_env}/c3p0.properties</value>
+             <!--<value>classpath:db.properties</value>
+              <value>classpath:c3p0.properties</value> -->
+              
+            </list>
+        </property>
+    </bean>
+
+    <!-- Decryption is handled by a Pooled StringEncryptor implementation. A pooled version for higher performance -->
+    <!-- in multi-processor/multi-core systems -->
+    <bean id="configurationEncryptor" class="org.jasypt.encryption.pbe.PooledPBEStringEncryptor"
+          p:config-ref="simpleStringPBEConfig" p:poolSize="4"/> <!-- ideal for 4 core system -->
+
+    <!-- This configuration provides the algorithm to use and the encryption password.-->
+    <bean id="simpleStringPBEConfig" class="org.jasypt.encryption.pbe.config.SimpleStringPBEConfig"
+          p:password="compRep+1+8T92mbHu3tR859v4GdpPfe226lhvmS" p:algorithm="PBEWithMD5AndDES"/>
+
+    <bean id="logger" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean"
+        p:targetClass="org.springframework.util.Log4jConfigurer" p:targetMethod="initLogging"
+        p:arguments="classpath:config/environment/${host_env}/log4j.xml" />
+
+</beans>

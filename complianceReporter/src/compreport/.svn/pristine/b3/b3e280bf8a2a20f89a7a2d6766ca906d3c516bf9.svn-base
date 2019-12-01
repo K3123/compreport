@@ -1,0 +1,15 @@
+instance.name=DEV1
+instance.user.home=/app/instances/tcserver/vfabric-tc-server-standard-2.6
+instance.root=${instance.user.home}/GIS03455-0
+instance.deploy.folder=${instance.root}/webapps
+instance.backup.folder=${instance.root}/backup
+instance.deploy.host=GIS03455.devcloud.ge.com
+instance.deploy.username=root
+instance.script=${instance.user.home}/scripts/instance-control.sh
+instance.start=${instance.script} start
+instance.stop=${instance.script} stop
+instance.clean.cache.folders.command=rm -rf ${instance.root}/temp/* ${instance.root}/work/*
+instance.protocol=http
+instance.ip=GIS03455.devcloud.ge.com
+instance.port=8000
+instance.ping=${instance.protocol}://${instance.ip}:${instance.port}/compreportpilot/ping.html

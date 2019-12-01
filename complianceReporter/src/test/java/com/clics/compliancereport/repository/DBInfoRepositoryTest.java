@@ -1,0 +1,100 @@
+package com.clics.compliancereport.repository;
+
+
+import com.clics.compliancereport.common.AbstractTestCase;
+import com.clics.compliancereport.common.TestConstants;
+import com.clics.compliancereport.domain.DBInfo;
+import com.github.springtestdbunit.annotation.DatabaseSetup;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.Assert.assertTrue;
+
+@DatabaseSetup("/META-INF/dbinventory-dataset-sql.xml")
+public class DBInfoRepositoryTest extends AbstractTestCase {
+
+    @Autowired
+    DBInfoRepository dbInfoRepository;
+
+    @Test
+    public void testFindAll() {
+        List<DBInfo> dbInfoList = dbInfoRepository.findAll();
+        assertThat(dbInfoList, is(notNullValue()));
+        assertThat("size is not what is expect", dbInfoList.size() == 6);
+    }
+
+
+    @Test
+    public void testFindByStatusNotAndNameLikeOrderByNameAsc() {
+        List<DBInfo> dbInfoList = dbInfoRepository.findByStatusNotAndNameLikeOrderByNameAsc(
+                                     TestConstants.RETIRED, TestConstants.DB_TEST_LIKE_NAME);
+        assertThat(dbInfoList, is(notNullValue()));
+        assertThat("size is not what is expected", dbInfoList.size() == 2);
+        //test accending order
+        assertTrue(dbInfoList.get(0).getName().equalsIgnoreCase(TestConstants.DB_TEST_NAME));
+    }
+
+    @Test
+    public void testFindByStatusNotAndNameLikeOrderByNameAscNegative() {
+        List<DBInfo> dbInfoList = dbInfoRepository.findByStatusNotAndNameLikeOrderByNameAsc(
+                null, TestConstants.DB_TEST_LIKE_NAME);
+        assertThat(dbInfoList, is(notNullValue()));
+        assertThat("size should be zero", dbInfoList.size() == 0);
+    }
+
+    @Test
+    public void testFindByStatusNotAndName() {
+        List<DBInfo> dbInfoList = dbInfoRepository.findByStatusNotAndName(
+                TestConstants.RETIRED, TestConstants.DB_TEST_NAME);
+        assertThat(dbInfoList, is(notNullValue()));
+        assertThat("size is not what is expected", dbInfoList.size() == 1);
+    }
+
+    @Test
+    public void testFindByStatusNotAndNameNegative() {
+        List<DBInfo> dbInfoList = dbInfoRepository.findByStatusNotAndName(null, TestConstants.DB_TEST_NAME);
+        assertThat(dbInfoList, is(notNullValue()));
+        assertThat("size should be zero", dbInfoList.size() == 0);
+    }
+
+
+    @Test
+    public void testFindByStatusNot() {
+        List<DBInfo> dbInfoList = dbInfoRepository.findByStatusNot(TestConstants.RETIRED);
+        assertThat(dbInfoList, is(notNullValue()));
+        assertThat("size is not what is expected", dbInfoList.size() == 3);
+    }
+
+    @Test
+    public void testFindByStatusNotNegative() {
+        List<DBInfo> dbInfoList = dbInfoRepository.findByStatusNot(null);
+        assertThat(dbInfoList, is(notNullValue()));
+        assertThat("size should be zero", dbInfoList.size() == 0);
+    }
+
+
+    @Test
+    public void testFindByStatusNotAndIdIn() {
+        List<DBInfo> dbInfoList = dbInfoRepository.findByStatusNotAndIdIn(TestConstants.RETIRED, TestConstants.DB_TEST_ID);
+        assertThat(dbInfoList, is(notNullValue()));
+        assertThat("size is not what is expected", dbInfoList.size() == 1);
+        assertTrue(dbInfoList.get(0).getName().equalsIgnoreCase(TestConstants.DB_TEST_NAME));
+    }
+
+    @Test
+    public void testFindByStatusNotAndIdInNegative() {
+        List<DBInfo> dbInfoList = dbInfoRepository.findByStatusNotAndIdIn(null, TestConstants.DB_TEST_ID);
+        assertThat(dbInfoList, is(notNullValue()));
+        assertThat("size should be zero", dbInfoList.size() == 0);
+    }
+}
+
+
+
+
+
