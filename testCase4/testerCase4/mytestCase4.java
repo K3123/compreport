@@ -1,8 +1,11 @@
 package testerCase4;
 
 import java.util.*;
+import java.net.*;
+import java.sql.*;
 
 public class mytestCase4 {
+	
     public static void quickSort(Integer[] arr, int low, int high) {
     	if((arr == null) || (arr.length == 0)) return;
     	if(low >= high ) return;
@@ -61,17 +64,24 @@ public class mytestCase4 {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-     Integer[] array = new Integer[] {12,13,23,10,3,6,90,70};
+     Integer[][] array = {{12,13,23,1,90,70},{12,13,23,10,3,6,90,70},{0},{},{11,123}, {2,-1,34,224,23,2313}};
      
-     quickSort(array, 0, array.length - 1);
+     for(Integer[] ar : array) {
+    	Integer[] ar1 = new Integer[ar.length];
+    	Integer[] ar2 = new Integer[ar.length];
+    	
+    	ar1 = ar.clone();
+    	ar2 = ar.clone();
+    	Arrays.parallelSort(ar2);
+        quickSort(ar, 0, ar.length - 1);
+        if (Arrays.toString(ar2).contains(Arrays.toString(ar)) == true ) {
+            System.out.println("Test : " + Arrays.toString(ar1) + " " + Arrays.toString(ar) + " Sorted");
+        }else {
+        	System.out.println("Test : " + Arrays.toString(ar1) + " " + Arrays.toString(ar) + " Not Sorted");
+            	
+        }
+     }
      
-     int a, c;
-     int b = a = (((c=5)*2)+7)/4;
-     
-     System.out.println(a);
-     
-     System.out.println("Yes we were called" + Arrays.toString(array));
-	
 	}
 
 }
