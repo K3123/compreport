@@ -31,9 +31,12 @@ public class myWork {
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-
-		System.out.println(lengthOfLongestSubstring("pwwkew"));
-		
+        String[] testCase = {"","pwwkew","jdjsdkk"};
+        
+        for( String myCase : testCase ) {
+		  System.out.println(lengthOfLongestSubstring(myCase));
+        }
+        
 	}
 
 }
