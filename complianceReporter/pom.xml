@@ -1,27 +1,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.ge.capital.compliancereport</groupId>
+    <groupId>com.clics.compliancereport</groupId>
     <artifactId>compreport</artifactId>
     <packaging>war</packaging>
     <version>1.0.0-SNAPSHOT</version>
   
-    <developers>
-        <developer>
-            <id>Garvey</id>
-            <name>Paul Garvey</name>
-            <email>paul.garvey@ge.com</email>
-            <url>http://gecapital.com</url>
-        </developer>
-    </developers>
     <ciManagement>
         <system>TeamCity</system>
-        <url>http://ci.capital.ge.com/TeamCity</url>
+        <url>http://ci.clics.com/TeamCity</url>
     </ciManagement>
     <scm>
-        <connection>scm:svn:https://svn1.openge.ge.com/svn/compliancereport</connection>
-        <developerConnection>scm:https://svn1.openge.ge.com/svn/compliancereport</developerConnection>
+        <connection>scm:svn:https://svn1.clics.com/svn/compliancereport</connection>
+        <developerConnection>scm:https://svn1.clics.com/svn/compliancereport</developerConnection>
         <tag>trunk</tag>
-        <url>https://svn1.openge.ge.com/svn/compliancereport</url>
+        <url>https://svn1.clics.com/svn/compliancereport</url>
     </scm>
 
     <properties>

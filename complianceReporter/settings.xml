@@ -8,24 +8,24 @@
             <id>blah</id>
             <active>false</active>
             <protocol>http</protocol>
-            <host>stmproxy.glb.comfin.ge.com</host>
+            <host>stmproxy.glb.clics.com</host>
             <port>80</port>
-            <nonProxyHosts>localhost|3.24.140.18|3.55.123.220|*.ge.com</nonProxyHosts>
+            <nonProxyHosts>localhost|3.24.140.18|3.55.123.220|*.clics.com</nonProxyHosts>
         </proxy>-->
         
         <!--<proxy>
             <id>blah</id>
             <active>true</active>
             <protocol>http</protocol>
-            <host>cinproxy.glb.comfin.ge.com</host>
+            <host>cinproxy.glb.comfin.clics.com</host>
             <port>80</port>
-            <nonProxyHosts>localhost|3.24.140.18|3.55.123.220|*.ge.com|3.*</nonProxyHosts>
+            <nonProxyHosts>localhost|3.24.140.18|3.55.123.220|*.clics.com|3.*</nonProxyHosts>
         </proxy>-->
 	<proxy>
 	      <id>blah</id>
 	      <active>true</active>
 	      <protocol>http</protocol>
-	      <host>cinext11.proxy.corporate.ge.com</host>
+	      <host>cinext11.proxy.clics.com</host>
 	      <port>80</port>
 	      <nonProxyHosts>localhost|3.24.140.18|3.55.123.220|*.ge.com</nonProxyHosts>
 	</proxy>	
