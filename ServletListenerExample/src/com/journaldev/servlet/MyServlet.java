@@ -24,7 +24,7 @@ public class MyServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		ServletContext ctx = request.getServletContext();
-		ctx.setAttribute("User","Clarence");
+		ctx.setAttribute("User","clarence");
 		String user = (String) ctx.getAttribute("User");
 		ctx.removeAttribute("User");
 		
