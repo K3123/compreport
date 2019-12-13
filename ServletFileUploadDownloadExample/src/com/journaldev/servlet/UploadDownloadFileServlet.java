@@ -60,15 +60,15 @@ public class UploadDownloadFileServlet extends HttpServlet {
 		ServletContext ctx = getServletContext();
 		InputStream fis = new FileInputStream(file);
 		String mimeType = ctx.getMimeType(file.getAbsolutePath());
-		response.setContentType(mimeType != null ? mimeType:"application/octet-stream"); 
+		response.setContentType(mimeType != null? mimeType:"application/octet-stream"); 
 		response.setContentLength((int) file.length());
 		response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
 		
 		ServletOutputStream os = response.getOutputStream();
 		byte[] bufferData = new byte[1024];
-		int read=0;
-		while (( read = fis.read(bufferData)) != -1 ) {
-			os.write(bufferData, 0 , read);
+		int read1 = 0; 
+		while (( read1 = fis.read(bufferData)) != -1 ) {
+			os.write(bufferData, 0 , read1);
 		}
 		os.flush();
 		os.close();
@@ -80,6 +80,7 @@ public class UploadDownloadFileServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		if ( !ServletFileUpload.isMultipartContent(request)) {
@@ -94,16 +95,20 @@ public class UploadDownloadFileServlet extends HttpServlet {
 				while ( fileItemsIterator.hasNext() ) {
 					FileItem fileItem = fileItemsIterator.next();
 					System.out.println("FieldName=" + fileItem.getFieldName());
-					System.out.println("FileName=" + fileItem.getName());
+					System.out.println("FileNamePath=" + fileItem.getName());
+					System.out.println("FileNamePath=" + fileItem.getName());
 					System.out.println("ContentType=" + fileItem.getContentType());
 					System.out.println("Size in bytes=" + fileItem.getSize());
 					
-					File file = new File(request.getServletContext().getAttribute("FILES_DIR") + File.separator + fileItem.getName());
+					File file = new File(request.getServletContext().getAttribute("FILES_DIR") + File.separator + fileItem.getName().replace("C:\\", ""));
 					System.out.println("Absolute Path at server " + file.getAbsolutePath());
-					fileItem.write(file);
-					out.write("File " + fileItem.getName() + " uploaded successfully. ");
+					if ( ! file.exists()) {
+						fileItem.write(file);
+						out.write("File " + fileItem.getName() + " uploaded successfully. ");
+					}else out.write("File " + fileItem.getName() + " already uploaded successfully. ");
+					
 					out.write("<br>");
-					out.write("<a href=\"UploadDownloadFileServlet?fileName=" + fileItem.getName() + "\">Download " + fileItem.getName() + "</a>");
+					out.write("<a href=\"UploadDownloadFileServlet?fileName=" + fileItem.getName().replace("C:\\", "").replace("\\","/") + "\">Download " + fileItem.getName() + "</a>");
 				}
 		} catch ( FileUploadException e ) {
 			out.write("Exception in uploading file. ");
