@@ -48,27 +48,31 @@ public class AppExceptionHandler extends HttpServlet {
 			requestUri = "Unknown";
 		}
 		
-		String requestMessage = "";
-		
-		//response.setContentType("text/html; charset=utf-8");
+	    
+		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		try {
-			out.println("<html><head>");
-			out.println("<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>");
+		
+	        out.println("<html><head>");
+	 	    out.println("<title> Exception/Error Details </title></head><body>");
+	 	    out.println("<h3>###################################################################</h3>");
+		    out.println("</body>");
+		    out.println("</html>");
+		
+		    out.println("<html><head>");
 			out.println("<title> Exception/Error Details </title></head><body>");	
 			if ( statusCode != 500 ) {
 				out.println("<h3>Error Details</h3>");
-				out.println("<h3>Status Code : " + statusCode.toString() + "</h3>");
+				out.println("<h3>Status Code : " + statusCode + "</h3>");
 				out.println("<br>");
-				out.println("<h3>Required URI :" + requestUri.toString() + "</h3>");
+				out.println("<h3>Required URI :" + requestUri + "</h3>");
 				out.println("<br>");
 			} else {
 				out.println("<h3>Exception Details</h3>");
 				out.println("<ul>");
 				out.println("<li>Servlet Name : " + servletName + "</li>");
-				out.println("<li>Exception Name : " + throwable.getClass().getName().toString() + "</li>");
+				out.println("<li>Exception Name : " + throwable.getClass().getName() + "</li>");
 				out.println("<li>Requested URI : " + requestUri.toString() + "</li>");
-				out.println("<li>Exception Message : " + requestMessage + "</li>");
+				out.println("<li>Exception Message : " + throwable.getMessage() + "</li>");
 				out.println("</ul>");
 			}
 			out.println("<br>");
@@ -76,9 +80,14 @@ public class AppExceptionHandler extends HttpServlet {
 			out.println("<a href=\"index2.html\"> Home Page </a>" );
 			out.println("</body>");
 			out.println("</html>");
-		} finally {
-			out.close();
-		}
+
+	        out.println("<html><head>");
+	 	    out.println("<title> Exception/Error Details </title></head><body>");
+	 	    out.println("<h3>###################################################################</h3>");
+		    out.println("</body>");
+		    out.println("</html>");
+			
+			
 	}
 
 }
