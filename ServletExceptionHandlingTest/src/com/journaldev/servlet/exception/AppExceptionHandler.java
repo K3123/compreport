@@ -55,6 +55,7 @@ public class AppExceptionHandler extends HttpServlet {
 	        out.println("<html><head>");
 	 	    out.println("<title> Exception/Error Details </title></head><body>");
 	 	    out.println("<h3>###################################################################</h3>");
+	 	    out.println("<h3>###################################################################</h3>");
 		    out.println("</body>");
 		    out.println("</html>");
 		
@@ -84,6 +85,7 @@ public class AppExceptionHandler extends HttpServlet {
 	        out.println("<html><head>");
 	 	    out.println("<title> Exception/Error Details </title></head><body>");
 	 	    out.println("<h3>###################################################################</h3>");
+			out.println("<h3>###################################################################</h3>");
 		    out.println("</body>");
 		    out.println("</html>");
 			
