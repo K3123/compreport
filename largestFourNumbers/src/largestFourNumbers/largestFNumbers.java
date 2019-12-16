@@ -55,7 +55,8 @@ public class largestFNumbers {
 	 * The main program will call the function and execute against multiple array lists.
 	 * The program has also been designed to capture a list of integers from the console and execute the 
 	 * same function. A list of comma separated integers must be enter at the console for the program to work as 
-	 * required.  
+	 * required. To implement the test portion of the code, please pass debug as a parameter to the main program 
+	 * via command line to execute debugging. 
 	 * @param args
 	 */
 	public static void main(String[] args) {
@@ -74,22 +75,23 @@ public class largestFNumbers {
 				   for(int valueinarray : highIntegers(testcase))  System.out.print(valueinarray + " ");
 				   System.out.println();
 			   }
-	  }
-	  System.out.println("Please enter a list of integers separated by commas to determine the 4 largest values?");
-	  System.out.println(" ");
-	  
-	  try( BufferedReader br = new BufferedReader(new InputStreamReader(System.in)) ) {
-			  String[] myIntegers = br.readLine().replace(" ","").split(",");
-			  int myIntegersLength = myIntegers.length;
-			  int[] myIntegersForFunction  = new int[myIntegersLength]; 		  
-			  for(int x = 0; x < myIntegersLength; x++ ){
-			     myIntegersForFunction[x] = Integer.parseInt(myIntegers[x]);
-	          }
-  		     for(int valueinarray : highIntegers(myIntegersForFunction))  System.out.print(valueinarray + " ");
-	  } catch (IOException e) {
-		   System.out.println("Something is wrong with the values entered. Please check the integer(s) and try again.");
-	  } catch (NumberFormatException e) { 
-		   System.out.println("The values entered are not all integers separated by commas. Please try again.");
+	  }else {
+		  System.out.println("Please enter a list of integers separated by commas to determine the 4 largest values?");
+		  System.out.println(" ");
+		  
+		  try( BufferedReader br = new BufferedReader(new InputStreamReader(System.in)) ) {
+				  String[] myIntegers = br.readLine().replace(" ","").split(",");
+				  int myIntegersLength = myIntegers.length;
+				  int[] myIntegersForFunction  = new int[myIntegersLength]; 		  
+				  for(int x = 0; x < myIntegersLength; x++ ){
+				     myIntegersForFunction[x] = Integer.parseInt(myIntegers[x]);
+		          }
+	  		     for(int valueinarray : highIntegers(myIntegersForFunction))  System.out.print(valueinarray + " ");
+		  } catch (IOException e) {
+			   System.out.println("Something is wrong with the values entered. Please check the integer(s) and try again.");
+		  } catch (NumberFormatException e) { 
+			   System.out.println("The values entered are not all integers separated by commas. Please try again.");
+		  }
 	  }
 	}
 }
