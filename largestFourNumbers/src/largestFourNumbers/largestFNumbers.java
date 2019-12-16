@@ -19,10 +19,10 @@ public class largestFNumbers {
     															    // integers in the list
     	int arrayofintegerslength = arrayofintegers.length;			// The value that contains the length of the array
     	if ( arrayofintegerslength <= 4 ) return arrayofintegers;   // If the array is empty or size of array is less than 5
-    	                                                            // then there is no values to provided or the array already 
-    	                                                            // has 4 integers. An empty is returned if the size is 0.
+    	                                                            // then there are no values to provided or the array already 
+    	                                                            // has 4 largest integers. An empty is returned if the size is 0.
     	temparray[0] = arrayofintegers[0];                          // The following is assigned, since by default the 
-    	                                                            // array is set to all zeros. This will cause the 
+    	                                                            // array is set to all zeros. This will cause an 
     	                                                            // issue when negative integers. Assigning the first 
     	                                                            // value from the array will ensure that the 
     	                                                            // comparison is completed with the remaining elements
@@ -74,8 +74,11 @@ public class largestFNumbers {
 				   System.out.println();
 			   }
 	  }
+	  System.out.println("Please enter a list of integers separated by commas to determine the 4 largest values?");
+	  System.out.println(" ");
+	  
 	  try( BufferedReader br = new BufferedReader(new InputStreamReader(System.in)) ) {
-			  String[] myIntegers = br.readLine().split(",");
+			  String[] myIntegers = br.readLine().replace(" ","").split(",");
 			  int myIntegersLength = myIntegers.length;
 			  int[] myIntegersForFunction  = new int[myIntegersLength]; 		  
 			  for(int x = 0; x < myIntegersLength; x++ ){
@@ -83,7 +86,9 @@ public class largestFNumbers {
 	          }
   		     for(int valueinarray : highIntegers(myIntegersForFunction))  System.out.print(valueinarray + " ");
 	  } catch (IOException e) {
-		    e.printStackTrace();
+		   System.out.println("Something is wrong with the values entered. Please check the numbers and try again.");
+	  } catch (NumberFormatException e) {
+		   System.out.println("The values entered are not all integers separated by commas. Please try again. ");
 	  }
 	}
 }
