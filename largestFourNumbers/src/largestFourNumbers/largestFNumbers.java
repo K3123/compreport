@@ -86,9 +86,9 @@ public class largestFNumbers {
 	          }
   		     for(int valueinarray : highIntegers(myIntegersForFunction))  System.out.print(valueinarray + " ");
 	  } catch (IOException e) {
-		   System.out.println("Something is wrong with the values entered. Please check the numbers and try again.");
-	  } catch (NumberFormatException e) {
-		   System.out.println("The values entered are not all integers separated by commas. Please try again. ");
+		   System.out.println("Something is wrong with the values entered. Please check the integer(s) and try again.");
+	  } catch (NumberFormatException e) { 
+		   System.out.println("The values entered are not all integers separated by commas. Please try again.");
 	  }
 	}
 }
