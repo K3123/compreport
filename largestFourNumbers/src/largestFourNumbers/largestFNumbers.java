@@ -62,6 +62,7 @@ public class largestFNumbers {
 		// The originalset contains the integer set of integers that will be tested to ensure the function 
 		// executes the task as requested 
 	   boolean debug = false;
+	   if ( args.length > 0) debug = (args[0].contains("debug")) ? true : false;
 	   if ( debug ) {
 			   int[][] originalset = {{-17,1,2,3,4,5,-6},{-17,1,2,3,-4,5,-6},{-1,1,2,3,4,5,-6},
 					                   {1,1,2,3,4,5},{6,8,0,10},{0,0,0,0,5},{},{0},
