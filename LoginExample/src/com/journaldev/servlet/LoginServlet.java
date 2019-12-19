@@ -48,7 +48,7 @@ public class LoginServlet extends HttpServlet {
 		log("User="+user+"::password="+pwd);
 		
 		if(userID.equals(user) && password.equals(pwd)){
-			response.sendRedirect("LoginSuccess.jsp");
+			response.sendRedirect("jsps/LoginSuccess.jsp");
 		}else{
 			RequestDispatcher rd = getServletContext().getRequestDispatcher("/login.html");
 			PrintWriter out= response.getWriter();

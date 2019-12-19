@@ -99,8 +99,9 @@ public class UploadDownloadFileServlet extends HttpServlet {
 					System.out.println("FileNamePath=" + fileItem.getName());
 					System.out.println("ContentType=" + fileItem.getContentType());
 					System.out.println("Size in bytes=" + fileItem.getSize());
+					String[] fildetails = fileItem.getName().split(":");
 					
-					File file = new File(request.getServletContext().getAttribute("FILES_DIR") + File.separator + fileItem.getName().replace("C:\\", ""));
+					File file = new File(request.getServletContext().getAttribute("FILES_DIR") + File.separator + fildetails[1].replace("\\", ""));
 					System.out.println("Absolute Path at server " + file.getAbsolutePath());
 					if ( ! file.exists()) {
 						fileItem.write(file);
