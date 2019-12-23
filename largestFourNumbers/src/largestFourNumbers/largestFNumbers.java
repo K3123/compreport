@@ -22,9 +22,9 @@ public class largestFNumbers {
     	                                                            // then there are no values to provided or the array already 
     	                                                            // has 4 largest integers. An empty is returned if the size is 0.
     	temparray[0] = arrayofintegers[0];                          // The following is assigned, since by default the 
-    	                                                            // array is set to all zeros. This will cause an 
-    	                                                            // issue when negative integers. Assigning the first 
-    	                                                            // value from the array will ensure that the 
+    	temparray[1] = arrayofintegers[1];                          // array is set to all zeros. This will cause an 
+    	temparray[2] = arrayofintegers[2];						    // issue when negative integers. Assigning the first 
+    	temparray[3] = arrayofintegers[3];						    // value from the array will ensure that the 
     	                                                            // comparison is completed with the remaining elements
     		                                                        // in the array. 
     	
@@ -34,17 +34,14 @@ public class largestFNumbers {
     			temparray[2] = temparray[1];
     			temparray[1] = temparray[0];
     			temparray[0] = arrayofintegers[x];			
-    		}
-    		if ( arrayofintegers[x] < temparray[0] && arrayofintegers[x] > temparray[1] ) {
+    		}else if ( arrayofintegers[x] > temparray[1] ) {
     			temparray[3] = temparray[2];
     			temparray[2] = temparray[1];
     			temparray[1] = arrayofintegers[x];
-       		}
-    		if ( arrayofintegers[x] < temparray[1] && arrayofintegers[x] > temparray[2] ) {
+       		}else if ( arrayofintegers[x] > temparray[2] ) {
     			temparray[3] = temparray[2];
     			temparray[2] = arrayofintegers[x];
-    		}
-    		if ( arrayofintegers[x] < temparray[2] && arrayofintegers[x] > temparray[3] ) {
+    		}else if ( arrayofintegers[x] > temparray[3] ) {
     			temparray[3] = arrayofintegers[x];
     		}
     	}
@@ -68,7 +65,7 @@ public class largestFNumbers {
 			   int[][] originalset = {{-17,1,2,3,4,5,-6},{-17,1,2,3,-4,5,-6},{-1,1,2,3,4,5,-6},
 					                   {1,1,2,3,4,5},{6,8,0,10},{0,0,0,0,5},{},{0},
 				                       {11,14,23,33,-10,24,54,66}, {100,124,4302,232,324,2442,-1,224434,4353,234}, 
-				                       {-17,-23,-45,-9,-8,-11}, 
+				                       {-17,-23,-45,-9,-8,-11}, {-5, -4, -3, -2, -1, 0}, {-1,-2,-3,-4,-5,-6},
 				                       {-1,-3,5,78,20,300,40,-50,1000,21000,100,124,4302,232,324,2442,-1,224434,4353,234}};
 			   for (int[] testcase : originalset ) {
 				   System.out.println("The following is the largest 4 numbers");

@@ -2,11 +2,35 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
   <display-name>ServletDBLog4jExample</display-name>
   <welcome-file-list>
-    <welcome-file>index.html</welcome-file>
-    <welcome-file>index.htm</welcome-file>
-    <welcome-file>index.jsp</welcome-file>
-    <welcome-file>default.html</welcome-file>
-    <welcome-file>default.htm</welcome-file>
-    <welcome-file>default.jsp</welcome-file>
+    <welcome-file>login.html</welcome-file>
   </welcome-file-list>
+  <context-param>
+  	<param-name>dbUser</param-name>
+  	<param-value>clarence</param-value>
+  </context-param>
+  <context-param>
+     <param-name>dbPassword</param-name>
+     <param-value>clarence123</param-value>
+  </context-param>
+  <context-param>
+  	<param-name>dbURL</param-name>
+  	<param-value>jdbc:mysql://192.168.242.35:3116/UserDB</param-value>
+  </context-param>
+  <context-param>
+     <param-name>log4j-config</param-name>
+     <param-value>WEB-INF/log4j.xml</param-value>
+  </context-param>
+  <error-page>
+  	<error-code>404</error-code>
+  	<location>/AppErrorHandler</location>
+  </error-page>
+  <filter>
+  	<filter-name>AuthenticationFilter2</filter-name>
+  	<filter-class>com.journaldev.servlet.filters.AuthenticationFilter2</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>AuthenticationFilter2</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  
 </web-app>
