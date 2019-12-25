@@ -21,13 +21,6 @@ import com.journaldev.util.DBConnectionManager;
 @WebListener
 public class AppContextListener implements ServletContextListener {
 
-    /**
-     * Default constructor. 
-     */
-    public AppContextListener() {
-        // TODO Auto-generated constructor stub
-    }
-
 	/**
      * @see ServletContextListener#contextDestroyed(ServletContextEvent)
      */
@@ -49,7 +42,7 @@ public class AppContextListener implements ServletContextListener {
          // TODO Auto-generated method stub
     	ServletContext ctx = sce.getServletContext();
     	String dbURL = ctx.getInitParameter("dbURL");
-    	String user = ctx.getInitParameter("dbUSER");
+    	String user = ctx.getInitParameter("dbUser");
     	String pwd = ctx.getInitParameter("dbPassword");
     	
     	try {

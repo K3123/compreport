@@ -56,6 +56,14 @@ public class AppErrorHandler extends HttpServlet {
 		}
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
+
+        out.println("<html><head>");
+ 	    out.println("<title> Exception/Error Details </title></head><body>");
+ 	    out.println("<h3>###################################################################</h3>");
+ 	    out.println("<h3>###################################################################</h3>");
+	    out.println("</body>");
+	    out.println("</html>");		
+		
 		out.write("<html><head><title>Exception/Error Details</title></head><body>");
 		if (statusCode != 500 ) {
 			out.write("<h3>Error Details</h3>");
@@ -75,6 +83,15 @@ public class AppErrorHandler extends HttpServlet {
 		out.write("<br><br>");
 		out.write("<a href=\"login.html\">Login Page</a>");
 		out.write("</body></html>");
+	
+        out.println("<html><head>");
+ 	    out.println("<title> Exception/Error Details </title></head><body>");
+ 	    out.println("<h3>###################################################################</h3>");
+ 	    out.println("<h3>###################################################################</h3>");
+	    out.println("</body>");
+	    out.println("</html>");
+	
+		
 	}
 
 }

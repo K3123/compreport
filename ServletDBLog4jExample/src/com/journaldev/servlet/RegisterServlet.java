@@ -19,7 +19,7 @@ import org.apache.log4j.Logger;
 /**
  * Servlet implementation class RegisterServlet
  */
-@WebServlet("/RegisterServlet")
+@WebServlet(name = "Register", urlPatterns = {"/Register"})
 public class RegisterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     

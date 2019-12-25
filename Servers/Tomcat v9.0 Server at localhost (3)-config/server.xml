@@ -149,7 +149,7 @@
              Note: The pattern used is equivalent to using pattern="common" -->
         <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" pattern="%h %l %u %t &quot;%r&quot; %s %b" prefix="localhost_access_log" suffix=".txt"/>
 
-      <Context docBase="LoginExample" path="/LoginExample" reloadable="true" source="org.eclipse.jst.jee.server:LoginExample"/><Context docBase="ServletCookie" path="/ServletCookie" reloadable="true" source="org.eclipse.jst.jee.server:ServletCookie"/><Context docBase="ServletExceptionHandlingTest" path="/ServletExceptionHandlingTest" reloadable="true" source="org.eclipse.jst.jee.server:ServletExceptionHandlingTest"/><Context docBase="ServletFileUploadDownloadExample" path="/ServletFileUploadDownloadExample" reloadable="true" source="org.eclipse.jst.jee.server:ServletFileUploadDownloadExample"/><Context docBase="ServletFilterExample" path="/ServletFilterExample" reloadable="true" source="org.eclipse.jst.jee.server:ServletFilterExample"/><Context docBase="ServletHttpSessionExample" path="/ServletHttpSessionExample" reloadable="true" source="org.eclipse.jst.jee.server:ServletHttpSessionExample"/></Host>
+      <Context docBase="ServletDBLog4jExample" path="/ServletDBLog4jExample" reloadable="true" source="org.eclipse.jst.jee.server:ServletDBLog4jExample"/></Host>
     </Engine>
   </Service>
 </Server>

@@ -21,7 +21,7 @@ import com.journaldev.util.User;
 /**
  * Servlet implementation class LoginServlet
  */
-@WebServlet(name = "Login", urlPatterns = {"/LoginServlet"})
+@WebServlet(name = "Login", urlPatterns = {"/Login"})
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
    
