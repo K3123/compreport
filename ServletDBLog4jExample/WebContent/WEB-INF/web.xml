@@ -32,5 +32,12 @@
     <filter-name>AuthenticationFilter2</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
-  
+  <filter>
+    <filter-name>ValidateSalt</filter-name>
+    <filter-class>com.journaldev.servlet.filters.ValidateSalt</filter-class>
+  </filter>
+  <filter-mapping>
+      <filter-name>ValidateSalt</filter-name>
+      <url-pattern>/*</url-pattern>
+  </filter-mapping>
 </web-app>

@@ -7,6 +7,7 @@
 <body>
 <h3>Provide all the fields for registration. </h3>
 <form action = "Register" method = "post">
+<input type = "hidden" name = "csrfPreventionSalt" value ="c:out value='${csrfPreventionSalt}'/>"/>
 <strong>Email Address</strong>:<input type = "text" name = "email"><br>
 <strong>Password</strong>:<input type = "password" name = "password"><br>
 <strong>Name</strong>:<input type = "text" name = "name"><br>

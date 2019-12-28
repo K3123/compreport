@@ -14,6 +14,7 @@
 <strong> Your Country</strong>: <%= user.getCountry() %><br>
 <br>
 <form action = "Logout" method = "post" >
+<input type = "hidden" name = "csrfPreventionSalt" value ="c:out value='${csrfPreventionSalt}'/>"/>
 <input type = "submit" value = "Logout" >
 </form>
 </body>

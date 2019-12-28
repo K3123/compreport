@@ -7,6 +7,7 @@
 <body>
 <h3> Login with email and password </h3>
 <form action = "Login" method = "post">
+<input type = "hidden" name = "csrfPreventionSalt" value ="c:out value='${csrfPreventionSalt}'/>"/>
 <strong> User Email </strong>:<input type = "text" name = "email"><br>
 <strong> Password </strong>:<input type = "password" name = "password"><br>
 <input type = "submit" value = "Login">
