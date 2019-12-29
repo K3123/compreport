@@ -58,9 +58,21 @@ public class AuthenticationFilter2 implements Filter {
         HttpSession session = req.getSession(false);
         if ( session == null && !(uri.endsWith("html") || uri.endsWith("Login") || uri.endsWith("Register"))) {
         	logger.error("Unauthorized access request");
-        	res.sendRedirect("login.html");
+        	 res.sendRedirect("login.html");
         }else if (csrfPreventionSaltCache == null ) {
-        	csrfPreventionSaltCache = CacheBuilder.newBuilder().maximumSize(5000).expireAfterWrite(20,TimeUnit.MINUTES).build(null);
+        	csrfPreventionSaltCache = CacheBuilder.newBuilder().maximumSize(5000).expireAfterWrite(20,TimeUnit.MINUTES).build(new CacheLoader<String, Boolean>() {
+               	@Override
+				public Boolean load(String arg0) throws Exception {
+					// TODO Auto-generated method stub
+					return createExpensiveGraph(arg0);
+				}
+
+				private Boolean createExpensiveGraph(String arg0) {
+					// TODO Auto-generated method stub
+					SecureRandom mystuff = new SecureRandom();
+					return mystuff.nextBoolean();
+				}
+                });
         	req.getSession().setAttribute("csrfPreventionSaltCache", csrfPreventionSaltCache);
         	String salt = RandomStringUtils.random(20,0,0,true,true,null, new SecureRandom());
         	csrfPreventionSaltCache.asMap().put("csrfPreventionSaltCache", Boolean.TRUE);
