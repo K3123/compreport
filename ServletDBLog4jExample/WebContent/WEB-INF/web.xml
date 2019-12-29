@@ -24,6 +24,11 @@
   	<error-code>404</error-code>
   	<location>/AppErrorHandler</location>
   </error-page>
+  <error-page>
+  	<error-code>500</error-code>
+  	<location>/AppErrorHandler</location>
+  </error-page>
+
   <filter>
   	<filter-name>AuthenticationFilter2</filter-name>
   	<filter-class>com.journaldev.servlet.filters.AuthenticationFilter2</filter-class>

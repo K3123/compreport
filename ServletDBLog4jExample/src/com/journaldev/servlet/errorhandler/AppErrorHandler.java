@@ -76,7 +76,7 @@ public class AppErrorHandler extends HttpServlet {
 			out.write("<li>Exception Name: " + throwable.getClass().getName() + "</li>");
 			out.write("<li>Requested Uri :" + requestUri + "</li>");
 			out.write("<li>Exception Message: " + throwable.getMessage() + "</li>");
-			out.write("/<ul>");
+			out.write("</ul>");
 			
 		}
 		
