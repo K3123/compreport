@@ -53,6 +53,10 @@ public class AuthenticationFilter2 implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
         String uri = req.getRequestURI();
+        String X_Frame_Options = res.getHeader("X-Frame-Options");
+        if ( X_Frame_Options == null ) {
+        	res.addHeader("X-Frame-Options", "ALLOW-FROM http://localhost:8080");
+        }
         logger.info("Requested resource::" + uri);
         HttpSession session = req.getSession(false);
         if ( session == null && !(uri.endsWith("html") || uri.endsWith("Login") || uri.endsWith("Register"))) {

@@ -11,6 +11,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
@@ -44,8 +45,14 @@ public class ValidateSalt implements Filter {
 		// TODO Auto-generated method stub
 		// place your code here
 		HttpServletRequest httpreq = (HttpServletRequest) request;
+		HttpServletResponse httpres = (HttpServletResponse) response;
 		// pass the request along the filter chain
 		String salt = (String) httpreq.getAttribute("csrfPreventionSalt");
+        String X_Frame_Options = httpres.getHeader("X-Frame-Options");
+        if ( X_Frame_Options == null ) {
+        	httpres.addHeader("X-Frame-Options", "ALLOW-FROM http://localhost:8080");
+        }
+
 		Cache<String,Boolean> csrfPreventionSaltCache = (Cache<String, Boolean>) httpreq.getSession().getAttribute("csrfPreventionSaltCache");
 		if ( csrfPreventionSaltCache != null && salt != null && 
 			 csrfPreventionSaltCache.asMap().get(salt) != null ) {

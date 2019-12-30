@@ -76,7 +76,7 @@ public class RegisterServlet extends HttpServlet {
 		String errorMsg = null;
 		String regexEmail = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
 		String regexUsername = "^[A-Za-z0-9+_.-]$";
-		String regexCountry = "^[A-Za-z]+[A-Za-z]$";
+		String regexCountry = "^([A-Z][a-z]*)+(?:[\\s-][A-Z][a-z]*)*$";
 		Pattern pattern = Pattern.compile(regexEmail);
 		Matcher matcherEmail = pattern.matcher(email);
 		Matcher matcherUsername = pattern.matcher(name);
@@ -94,8 +94,11 @@ public class RegisterServlet extends HttpServlet {
 		if ( name == null || name.equals("") || matcherUsername.matches() == false) {
 			errorMsg = "Name can't be null or empty. Name should also only contain upper or lower case letters.";
 		}
-		if ( country == null || country.equals("") || matcherCountry.matches() == false) {
+		if ( country == null || country.equals("")) {
 			errorMsg = "Country can't be null or empty.";
+		}
+		if ( matcherCountry.matches() == false ) {
+			errorMsg = "Country can only be uppercase and lowercase characters.";
 		}
 		if ( errorMsg != null ) {
 			RequestDispatcher rd = getServletContext().getRequestDispatcher("/register.html");

@@ -19,6 +19,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.log4j.Logger;
 
@@ -46,7 +47,9 @@ public class LoadSalt implements Filter {
 		// TODO Auto-generated method stub
 		// place your code here
 		HttpServletRequest httpReq = (HttpServletRequest) request;
-		Cache<String, Boolean> csrfPreventionSaltCache = (Cache<String, Boolean>) httpReq.getSession().getAttribute("csrfPreventionSaltCache");
+		HttpServletResponse httpRes = (HttpServletResponse) response;
+		Cache<String, Boolean> csrfPreventionSaltCache = (Cache<String, Boolean>) 
+				httpReq.getSession().getAttribute("csrfPreventionSaltCache");
 		if ( csrfPreventionSaltCache == null ) {
 			csrfPreventionSaltCache = CacheBuilder.newBuilder().maximumSize(5000).expireAfterWrite(20, TimeUnit.MINUTES).build(
 					new CacheLoader<String, Boolean>() {
@@ -68,6 +71,11 @@ public class LoadSalt implements Filter {
 		String salt = RandomStringUtils.random(20,0,0,true, true, null, new SecureRandom());
 		csrfPreventionSaltCache.asMap().put(salt,Boolean.TRUE);
 		httpReq.setAttribute("csrfPreventionSalt", salt);
+        String X_Frame_Options = httpRes.getHeader("X-Frame-Options");
+        if ( X_Frame_Options == null ) {
+        	httpRes.addHeader("X-Frame-Options", "ALLOW-FROM http://localhost:8080");
+        }
+
 		// pass the request along the filter chain
 		chain.doFilter(request, response);
 	}
