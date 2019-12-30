@@ -62,9 +62,9 @@ public class LoginServlet extends HttpServlet {
 					  logger.info("User found wuth details=" + user);
 					  HttpSession session = request.getSession();
 					  session.setAttribute("User", user);
+					  System.out.println("Email : " + email );
 					  response.sendRedirect("home.jsp");
-					  
-				  }else {
+				  } else {
 					  RequestDispatcher rd = getServletContext().getRequestDispatcher("/login.html");
 					  PrintWriter out = response.getWriter();
 					  logger.error("User not found with email=" + email);

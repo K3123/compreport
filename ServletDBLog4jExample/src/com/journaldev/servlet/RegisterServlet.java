@@ -76,7 +76,7 @@ public class RegisterServlet extends HttpServlet {
 		String errorMsg = null;
 		String regexEmail = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
 		String regexUsername = "^[A-Za-z0-9+_.-]$";
-		String regexCountry = "^[A-Za-z]$";
+		String regexCountry = "^[A-Za-z]+[A-Za-z]$";
 		Pattern pattern = Pattern.compile(regexEmail);
 		Matcher matcherEmail = pattern.matcher(email);
 		Matcher matcherUsername = pattern.matcher(name);
