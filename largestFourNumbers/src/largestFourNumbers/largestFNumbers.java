@@ -21,14 +21,14 @@ public class largestFNumbers {
     	if ( arrayofintegerslength <= 4 ) return arrayofintegers;   // If the array is empty or size of array is less than 5
     	                                                            // then there are no values to provided or the array already 
     	                                                            // has 4 largest integers. An empty is returned if the size is 0.
-    	temparray[0] = arrayofintegers[0];                          // The following is assigned, since by default the 
-    	temparray[1] = arrayofintegers[1];                          // array is set to all zeros. This will cause an 
-    	temparray[2] = arrayofintegers[2];						    // issue when negative integers. Assigning the first 
-    	temparray[3] = arrayofintegers[3];						    // value from the array will ensure that the 
+    	temparray[0] = -2147483648;                          // The following is assigned, since by default the 
+    	temparray[1] = -2147483648;                          // array is set to all zeros. This will cause an 
+    	temparray[2] = -2147483648;						    // issue when negative integers. Assigning the first 
+    	temparray[3] = -2147483648;						    // value from the array will ensure that the 
     	                                                            // comparison is completed with the remaining elements
     		                                                        // in the array. 
     	
-    	for(int x = 1; x < arrayofintegerslength; x++ ) {
+    	for(int x = 0; x < arrayofintegerslength; x++ ) {
     		if ( arrayofintegers[x] > temparray[0] ) {
     			temparray[3] = temparray[2];
     			temparray[2] = temparray[1];
