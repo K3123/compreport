@@ -12,12 +12,17 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
+
 /**
  * Servlet Filter implementation class ValidateSalt
  */
 @WebFilter("/ValidateSalt")
 public class ValidateSalt implements Filter {
 
+	private Logger logger = Logger.getLogger(ValidateSalt.class);
+	
+	
     /**
      * Default constructor. 
      */
@@ -43,7 +48,7 @@ public class ValidateSalt implements Filter {
 		String salt = (String) httpreq.getAttribute("csrfPreventionSalt");
 		Cache<String,Boolean> csrfPreventionSaltCache = (Cache<String, Boolean>) httpreq.getSession().getAttribute("csrfPreventionSaltCache");
 		if ( csrfPreventionSaltCache != null && salt != null && 
-				csrfPreventionSaltCache.asMap().get(salt) != null ) {
+			  csrfPreventionSaltCache.asMap().get(salt) != null ) {
 			  chain.doFilter(request, response);
 			
 		} else {
