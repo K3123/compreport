@@ -56,10 +56,7 @@ public class AuthenticationFilter2 implements Filter {
         String uri = req.getRequestURI();
         logger.info("Requested resource::" + uri);
         HttpSession session = req.getSession(false);
-        if ( session == null && !(uri.endsWith("html") || uri.endsWith("Login") || uri.endsWith("Register"))) {
-        	logger.error("Unauthorized access request");
-        	 res.sendRedirect("login.html");
-        }else if (csrfPreventionSaltCache == null ) {
+        if (csrfPreventionSaltCache == null ) {
         	csrfPreventionSaltCache = CacheBuilder.newBuilder().maximumSize(5000).expireAfterWrite(20,TimeUnit.MINUTES).build(new CacheLoader<String, Boolean>() {
                	@Override
 				public Boolean load(String arg0) throws Exception {
@@ -73,12 +70,21 @@ public class AuthenticationFilter2 implements Filter {
 					return mystuff.nextBoolean();
 				}
                 });
+        	System.out.println("This is the string for the csrf : " + csrfPreventionSaltCache.toString());
         	req.getSession().setAttribute("csrfPreventionSaltCache", csrfPreventionSaltCache);
         	String salt = RandomStringUtils.random(20,0,0,true,true,null, new SecureRandom());
-        	csrfPreventionSaltCache.asMap().put("csrfPreventionSaltCache", Boolean.TRUE);
-        	req.setAttribute("csrfPreventionSaltCache", salt);
+        	csrfPreventionSaltCache.asMap().put(salt, Boolean.TRUE);
+        	req.setAttribute("csrfPreventionSalt", salt);
         	chain.doFilter(request, response);
-	    } else {
+	    } else if ( session == null && !(uri.endsWith("html") || uri.endsWith("Login") || uri.endsWith("Register"))) {
+        	logger.error("Unauthorized access request");
+       	    res.sendRedirect("login.html");
+       } else {
+    	    String salt = RandomStringUtils.random(20, 0, 0, true, true, null, new SecureRandom());
+    	    csrfPreventionSaltCache.asMap().put(salt, Boolean.TRUE);
+           // Add the salt to the current request so it can be used
+           // by the page rendered in this request
+            req.setAttribute("csrfPreventionSalt", salt);
     		// pass the request along the filter chain
     		chain.doFilter(request, response);
         	

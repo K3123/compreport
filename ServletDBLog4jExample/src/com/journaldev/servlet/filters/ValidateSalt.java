@@ -41,9 +41,9 @@ public class ValidateSalt implements Filter {
 		HttpServletRequest httpreq = (HttpServletRequest) request;
 		// pass the request along the filter chain
 		String salt = (String) httpreq.getAttribute("csrfPreventionSalt");
-		Cache<String,Boolean> csrfPreventionSalt = (Cache<String, Boolean>) httpreq.getSession().getAttribute("csrfPreventionSaltCache");
-		if ( csrfPreventionSalt != null && salt != null && 
-				csrfPreventionSalt.getUnchecked(salt)) {
+		Cache<String,Boolean> csrfPreventionSaltCache = (Cache<String, Boolean>) httpreq.getSession().getAttribute("csrfPreventionSaltCache");
+		if ( csrfPreventionSaltCache != null && salt != null && 
+				csrfPreventionSaltCache.asMap().get(salt) != null ) {
 			  chain.doFilter(request, response);
 			
 		} else {
