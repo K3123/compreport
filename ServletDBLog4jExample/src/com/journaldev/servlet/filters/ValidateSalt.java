@@ -48,13 +48,12 @@ public class ValidateSalt implements Filter {
 		String salt = (String) httpreq.getAttribute("csrfPreventionSalt");
 		Cache<String,Boolean> csrfPreventionSaltCache = (Cache<String, Boolean>) httpreq.getSession().getAttribute("csrfPreventionSaltCache");
 		if ( csrfPreventionSaltCache != null && salt != null && 
-			  csrfPreventionSaltCache.asMap().get(salt) != null ) {
+			 csrfPreventionSaltCache.asMap().get(salt) != null ) {
 			  chain.doFilter(request, response);
 			
 		} else {
 			throw new ServletException("Potential CSRF detected !! Inform a scary sysadmin ASAP.");
 		}
-		chain.doFilter(request, response);
 	}
 
 	/**
