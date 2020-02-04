@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,6 +29,7 @@ public class RegisterServlet extends HttpServlet {
 	
 	private static boolean validation_Password(final String PASSWORD_Arg)    {
 	    boolean result = false;
+	    if ( PASSWORD_Arg.length() > 20 ) return false;
 	    try {
 	        if (PASSWORD_Arg!=null) {
 	            //_________________________
@@ -69,18 +71,23 @@ public class RegisterServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		String name = request.getParameter("name");
 		String country = request.getParameter("country");
 		String errorMsg = null;
 		String regexEmail = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
-		String regexUsername = "^[A-Za-z0-9+_.-]$";
+		String regexUsername = "^([\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*){7,15}$";
 		String regexCountry = "^([A-Z][a-z]*)+(?:[\\s-][A-Z][a-z]*)*$";
+		Integer count = 0;
+		
 		Pattern pattern = Pattern.compile(regexEmail);
 		Matcher matcherEmail = pattern.matcher(email);
-		Matcher matcherUsername = pattern.matcher(name);
-		Matcher matcherCountry = pattern.matcher(country);
+		Pattern patternUN = Pattern.compile(regexUsername);
+		Matcher matcherUsername = patternUN.matcher(name);
+		Pattern patternCT = Pattern.compile(regexCountry);
+		Matcher matcherCountry = patternCT.matcher(country);
 		
 		if ( email == null || email.equals("") || matcherEmail.matches() == false ) {
 			errorMsg = "Email ID must be a valid email address.";
@@ -91,8 +98,11 @@ public class RegisterServlet extends HttpServlet {
 		if ( password.length() < 8 || validation_Password(password) == false) {
 			errorMsg = "Password not valid format. Password must be greater than 8 chars, include numbers, lower and upper case letters and special characters";
 		}
-		if ( name == null || name.equals("") || matcherUsername.matches() == false) {
-			errorMsg = "Name can't be null or empty. Name should also only contain upper or lower case letters.";
+		if ( name == null || name.equals("") ) {
+			errorMsg = "Name can't be null or empty. ";
+		}
+		if ( matcherUsername.matches() == false ) {
+			errorMsg = "Name should also only contain upper or lower case letters.";
 		}
 		if ( country == null || country.equals("")) {
 			errorMsg = "Country can't be null or empty.";
@@ -102,6 +112,15 @@ public class RegisterServlet extends HttpServlet {
 		}
 		if ( errorMsg != null ) {
 			RequestDispatcher rd = getServletContext().getRequestDispatcher("/register.html");
+			Cookie domainCookie = new Cookie("Set-Cookie","TestCookie" + String.valueOf(count));
+			domainCookie.setComment("Set-Cookie");
+			domainCookie.setMaxAge(60*60);
+			domainCookie.setPath("/Servlet/RegisterServlet");					  
+			domainCookie.setHttpOnly(true);
+			domainCookie.setSecure(true);
+			domainCookie.setDomain("localhost");
+			response.addCookie(domainCookie);
+			response.setHeader("Set-Cookie","key=value;HttpOnly;SameSite=strict");
 			PrintWriter out = response.getWriter();
 			out.println("<font color = red>" + errorMsg + "</font>");
 			rd.include(request, response);
@@ -116,7 +135,16 @@ public class RegisterServlet extends HttpServlet {
 				ps.setString(4,password);
 				ps.execute();
 				logger.info("User registered with email=" + email);
-				RequestDispatcher rd = getServletContext().getRequestDispatcher("/login.html");
+				RequestDispatcher rd = getServletContext().getRequestDispatcher("/login.jsp");
+				Cookie domainCookie = new Cookie("Set-Cookie","TestCookie" + String.valueOf(count));
+				domainCookie.setComment("Set-Cookie");
+				domainCookie.setMaxAge(60*60);
+				domainCookie.setPath("/Servlet/RegisterServlet");					  
+				domainCookie.setHttpOnly(true);
+				domainCookie.setSecure(true);
+				domainCookie.setDomain("localhost");
+				response.addCookie(domainCookie);
+				response.setHeader("Set-Cookie","key=value;HttpOnly;SameSite=strict");
 				PrintWriter out = response.getWriter();
 				out.println("<font color = green>Registeration successful, please login below. </font>");
 				rd.include(request, response);
@@ -127,6 +155,7 @@ public class RegisterServlet extends HttpServlet {
 			} finally {
 				try {
 					ps.close();
+					con.close();
 				} catch ( SQLException e ) {
 					logger.error("SQLException in closing PreparedStatement");
 				}

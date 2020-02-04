@@ -47,17 +47,24 @@ public class ValidateSalt implements Filter {
 		HttpServletRequest httpreq = (HttpServletRequest) request;
 		HttpServletResponse httpres = (HttpServletResponse) response;
 		// pass the request along the filter chain
-		String salt = (String) httpreq.getAttribute("csrfPreventionSalt");
-        String X_Frame_Options = httpres.getHeader("X-Frame-Options");
+		String salt = (String) httpreq.getParameter("csrfPreventionSalt");
+	    String X_Frame_Options = httpres.getHeader("X-Frame-Options");
+	    String X_XSS_Protection = httpres.getHeader("X-XSS-Protection");
+	    String X_CSRF_TOKEN = (String) httpres.getHeader("X-CSRF-TOKEN");
         if ( X_Frame_Options == null ) {
-        	httpres.addHeader("X-Frame-Options", "ALLOW-FROM http://localhost:8080");
+        	throw new ServletException("Potential CSRF detected !! Inform a scary sysadmin ASAP.");
         }
-
+        if ( X_XSS_Protection == null ) {
+        	throw new ServletException("Potential CSRF detected !! Inform a scary sysadmin ASAP.");
+        }
 		Cache<String,Boolean> csrfPreventionSaltCache = (Cache<String, Boolean>) httpreq.getSession().getAttribute("csrfPreventionSaltCache");
 		if ( csrfPreventionSaltCache != null && salt != null && 
-			 csrfPreventionSaltCache.asMap().get(salt) != null ) {
-			  chain.doFilter(request, response);
-			
+			 csrfPreventionSaltCache.asMap().get(salt).equals(true) &&
+			 csrfPreventionSaltCache.asMap().get(X_CSRF_TOKEN).equals(true) ) {
+			 System.out.println("Yes we did check the page for the token "); 
+			 System.out.println("Salt was found " + csrfPreventionSaltCache.asMap().get(salt).toString());
+			 System.out.println("CSRF Token was found " + csrfPreventionSaltCache.asMap().get(X_CSRF_TOKEN).toString());
+			 chain.doFilter(httpreq, httpres);			
 		} else {
 			throw new ServletException("Potential CSRF detected !! Inform a scary sysadmin ASAP.");
 		}

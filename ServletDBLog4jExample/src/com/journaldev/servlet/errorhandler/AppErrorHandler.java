@@ -2,12 +2,20 @@ package com.journaldev.servlet.errorhandler;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.security.SecureRandom;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang3.RandomStringUtils;
+
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
 
 /**
  * Servlet implementation class AppErrorHandler
@@ -55,37 +63,91 @@ public class AppErrorHandler extends HttpServlet {
 			requestUri = "Unknown";
 		}
 		response.setContentType("text/html");
+	    String X_Frame_Options = response.getHeader("X-Frame-Options");
+	    String X_XSS_Protection = response.getHeader("X-XSS-Protection");
+	    String X_CSRF_TOKEN = response.getHeader("X-CSRF-TOKEN");
+
+		Cache<String, Boolean> csrfPreventionSaltCache = (Cache<String, Boolean>) 
+				request.getSession().getAttribute("csrfPreventionSaltCache");
+	    
+        if ( X_Frame_Options == null ) {
+        	response.addHeader("X-Frame-Options", "ALLOW-FROM http://localhost:8181");
+        }
+        if ( X_XSS_Protection == null ) {
+        	response.addHeader("X-XSS-Protection", "1; mode=block");
+        }
+        if ( X_CSRF_TOKEN == null ) {
+			csrfPreventionSaltCache = CacheBuilder.newBuilder()
+					.maximumSize(5000)
+					.expireAfterWrite(20, TimeUnit.MINUTES)
+					.build(
+					new CacheLoader<String, Boolean>() {
+		               	@Override
+						public Boolean load(String arg0) throws Exception {
+							// TODO Auto-generated method stub
+							return createExpensiveGraph(arg0);
+						}
+
+						private Boolean createExpensiveGraph(String arg0) {
+							// TODO Auto-generated method stub
+							SecureRandom mystuff = new SecureRandom();
+							return mystuff.nextBoolean();
+						}
+		         }		
+			);
+
+		   	String salt = RandomStringUtils.random(40,0,0,true, true, null, new SecureRandom());
+			csrfPreventionSaltCache.asMap().put(salt,Boolean.TRUE);
+		
+			request.getSession().setAttribute("csrfPreventionSaltCache", csrfPreventionSaltCache);	
+	      	response.addHeader("X-CSRF-TOKEN", salt);
+	        
+        }
+
+         
 		PrintWriter out = response.getWriter();
 
-        out.println("<html><head>");
- 	    out.println("<title> Exception/Error Details </title></head><body>");
+        out.println("<html>");
+        out.println("<head>");
+ 	    out.println("<title> Exception/Error Details </title>");
+ 	    out.println("</head>");
+ 	    out.println("<body>");
  	    out.println("<h3>###################################################################</h3>");
  	    out.println("<h3>###################################################################</h3>");
 	    out.println("</body>");
 	    out.println("</html>");		
 		
-		out.write("<html><head><title>Exception/Error Details</title></head><body>");
+		out.println("<html>");
+		out.println("<head>");
+		out.println("<title>Exception/Error Details</title>");
+		out.println("</head>");
+		out.println("<body>");
 		if (statusCode != 500 ) {
-			out.write("<h3>Error Details</h3>");
-			out.write("<strong>Status Code</strong>:" + statusCode + "<br>");
-			out.write("<strong>Requested Uri</strong>:" + requestUri + "<br>");
+			out.println("<h3>Error Details</h3>");
+			out.println("<strong>Status Code</strong>:" + statusCode + "<br>");
+			out.println("<strong>Requested Uri</strong>:" + requestUri + "<br>");
 		} else {
-			out.write("<h3>Exception Details</h3>");
-			out.write("<ul>");
-			out.write("<li>Servlet Name: " + servletName + "</li>");
-			out.write("<li>Exception Name: " + throwable.getClass().getName() + "</li>");
-			out.write("<li>Requested Uri :" + requestUri + "</li>");
-			out.write("<li>Exception Message: " + throwable.getMessage() + "</li>");
-			out.write("</ul>");
+			out.println("<h3>Exception Details</h3>");
+			out.println("<ul>");
+			out.println("<li>Servlet Name: " + servletName + "</li>");
+			out.println("<li>Exception Name: " + throwable.getClass().getName() + "</li>");
+			out.println("<li>Requested Uri :" + requestUri + "</li>");
+			out.println("<li>Exception Message: " + throwable.getMessage() + "</li>");
+			out.println("</ul>");
 			
 		}
 		
-		out.write("<br><br>");
-		out.write("<a href=\"login.html\">Login Page</a>");
-		out.write("</body></html>");
+		out.println("<br/>");
+		out.println("<br/>");
+		out.println("<a href=\"login.jsp\">Login Page</a>");
+		out.println("</body>");
+	    out.println("</html>");
 	
-        out.println("<html><head>");
- 	    out.println("<title> Exception/Error Details </title></head><body>");
+        out.println("<html>");
+        out.println("<head>");
+ 	    out.println("<title> Exception/Error Details </title>");
+ 	    out.println("</head>");
+ 	    out.println("<body>");
  	    out.println("<h3>###################################################################</h3>");
  	    out.println("<h3>###################################################################</h3>");
 	    out.println("</body>");

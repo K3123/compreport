@@ -60,11 +60,11 @@
          APR (HTTP/AJP) Connector: /docs/apr.html
          Define a non-SSL/TLS HTTP/1.1 Connector on port 8080
     -->
-    <Connector connectionTimeout="20000" port="8080" protocol="HTTP/1.1" redirectPort="8443"/>
+    <Connector connectionTimeout="20000" port="8181" protocol="HTTP/1.1" redirectPort="8443"/>
     <!-- A "Connector" using the shared thread pool-->
     <!--
     <Connector executor="tomcatThreadPool"
-               port="8080" protocol="HTTP/1.1"
+               port="8181" protocol="HTTP/1.1"
                connectionTimeout="20000"
                redirectPort="8443" />
     -->
@@ -118,7 +118,15 @@
     <Engine name="Catalina" defaultHost="localhost" jvmRoute="jvm1">
     -->
     <Engine defaultHost="localhost" name="Catalina">
-
+    <Resource name="jdbc/MyDB" global="jdbc/MyDB" auth="Container" type="javax.sql.DataSource" driverClassName="com.mysql.jdbc.Driver"
+     url="jdbc:mysql://192.168.242.35:3116/UserDB"
+     username="clarence"
+     password="clarence123"
+     maxActive="100"
+     maxIdle="20"
+     minIdle="5"
+     maxWait="100000"/>
+     
       <!--For clustering, please take a look at documentation at:
           /docs/cluster-howto.html  (simple how to)
           /docs/config/cluster.html (reference documentation) -->
@@ -149,7 +157,7 @@
              Note: The pattern used is equivalent to using pattern="common" -->
         <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" pattern="%h %l %u %t &quot;%r&quot; %s %b" prefix="localhost_access_log" suffix=".txt"/>
 
-      <Context docBase="ServletDBLog4jExample" path="/ServletDBLog4jExample" reloadable="true" source="org.eclipse.jst.jee.server:ServletDBLog4jExample"/></Host>
+      <Context docBase="ServletDBLog4jExample" path="/ServletDBLog4jExample" reloadable="true" source="org.eclipse.jst.jee.server:ServletDBLog4jExample"/><Context docBase="ServletCookie" path="/ServletCookie" reloadable="true" source="org.eclipse.jst.jee.server:ServletCookie"/></Host>
     </Engine>
   </Service>
 </Server>

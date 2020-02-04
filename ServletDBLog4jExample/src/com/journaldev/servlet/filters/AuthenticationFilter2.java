@@ -36,7 +36,6 @@ public class AuthenticationFilter2 implements Filter {
 
 	private Logger logger = Logger.getLogger(AuthenticationFilter2.class);
 	
-
 	/**
 	 * @see Filter#destroy()
 	 */
@@ -53,18 +52,16 @@ public class AuthenticationFilter2 implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
         String uri = req.getRequestURI();
-        String X_Frame_Options = res.getHeader("X-Frame-Options");
-        if ( X_Frame_Options == null ) {
-        	res.addHeader("X-Frame-Options", "ALLOW-FROM http://localhost:8080");
-        }
-        logger.info("Requested resource::" + uri);
+
+		logger.info("Requested resource::" + uri);
         HttpSession session = req.getSession(false);
-        if ( session == null && !(uri.endsWith("html") || uri.endsWith("Login") || uri.endsWith("Register"))) {
+        System.out.println("AuthenticatioFilter2 was called. Yes this was called.");
+		if ( session == null && !(uri.endsWith("html") || uri.endsWith("Login") || uri.endsWith("Register"))) {
         	logger.error("Unauthorized access request");
        	    res.sendRedirect("login.html");
         } else {
-    		// pass the request along the filter chain
-    		chain.doFilter(request, response);    	
+        	// pass the request along the filter chain
+    		chain.doFilter(req, res);    	
         }
 	}
 

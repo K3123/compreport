@@ -8,14 +8,20 @@
 <title>Home Page</title>
 </head>
 <body>
-<% User user = (User) session.getAttribute("User"); %>
+<% User user = (User) session.getAttribute("User"); 
+  if ( user == null ) response.sendRedirect("login.html"); %>
+<% System.out.println("This is the name " + user.getName()); %>
 <h3>Hi <%= user.getName() %></h3>
 <strong> Your Email</strong>: <%= user.getEmail() %><br>
 <strong> Your Country</strong>: <%= user.getCountry() %><br>
 <br>
 <form action = "Logout" method = "post" >
-<input type = "hidden" name = "csrfPreventionSalt" value ="c:out value='${csrfPreventionSalt}'/>"/>
+<input type = "hidden" name = "csrfPreventionSalt" value ="< c:out value='${csrfPreventionSalt}' />"/>
 <input type = "submit" value = "Logout" >
 </form>
+<form action = "JDBCDataSourceExample" method = "post" >
+<input type = "submit" value = "Print" >
+</form>
+<a href="CheckoutPage.jsp">Checkout Page</a>
 </body>
 </html>
