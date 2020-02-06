@@ -1,11 +1,13 @@
-package largestFourNumbers;
+package org.largestfournumbers;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
 
-public class largestFNumbers {
+import org.apache.logging.log4j.Logger;
+
+public class LargestFourNumbers {
+  static Logger logger;
     /**
      * Assignment
        Write a function that takes a list of integers and returns the 4 highest in O(n) time. 
@@ -60,7 +62,7 @@ public class largestFNumbers {
 		// The originalset contains the integer set of integers that will be tested to ensure the function 
 		// executes the task as requested 
 	   boolean debug = false;
-	   if ( args.length > 0) debug = (args[0].contains("debug")) ? true : false;
+	   if ( args.length > 0) debug = args[0].contains("debug");
 	   if ( debug ) {
 			   int[][] originalset = {{-17,1,2,3,4,5,-6},{-17,1,2,3,-4,5,-6},{-1,1,2,3,4,5,-6},
 					                   {1,1,2,3,4,5},{6,8,0,10},{0,0,0,0,5},{},{0},
@@ -68,14 +70,14 @@ public class largestFNumbers {
 				                       {-17,-23,-45,-9,-8,-11}, {-5, -4, -3, -2, -1, 0}, {-1,-2,-3,-4,-5,-6},
 				                       {-1,-3,5,78,20,300,40,-50,1000,21000,100,124,4302,232,324,2442,-1,224434,4353,234}};
 			   for (int[] testcase : originalset ) {
-				   System.out.println("The following is the largest 4 numbers");
-				   for(int valueinarray : highIntegers(testcase))  System.out.print(valueinarray + " ");
-				   System.out.println();
+				   logger.info("The following is the largest 4 numbers");
+				   StringBuilder  test = new StringBuilder();
+				   for(int valueinarray : highIntegers(testcase))
+					   test.append(String.valueOf(valueinarray) + " ");
+				   logger.info(test);
 			   }
-	  }else {
-		  System.out.println("Please enter a list of integers separated by commas to determine the 4 largest values?");
-		  System.out.println(" ");
-		  
+	  } else {
+		  logger.info("Please enter a list of integers separated by commas to determine the 4 largest values?");
 		  try( BufferedReader br = new BufferedReader(new InputStreamReader(System.in)) ) {
 				  String[] myIntegers = br.readLine().replace(" ","").split(",");
 				  int myIntegersLength = myIntegers.length;
@@ -83,11 +85,14 @@ public class largestFNumbers {
 				  for(int x = 0; x < myIntegersLength; x++ ){
 				     myIntegersForFunction[x] = Integer.parseInt(myIntegers[x]);
 		          }
-	  		     for(int valueinarray : highIntegers(myIntegersForFunction))  System.out.print(valueinarray + " ");
+				  StringBuilder  test1 = new StringBuilder();
+				  for(int valueinarray : highIntegers(myIntegersForFunction))  
+					  test1.append(String.valueOf(valueinarray) + " ");
+				  logger.info(test1);
 		  } catch (IOException e) {
-			   System.out.println("Something is wrong with the values entered. Please check the integer(s) and try again.");
+			   logger.info("Something is wrong with the values entered. Please check the integer(s) and try again.");
 		  } catch (NumberFormatException e) { 
-			   System.out.println("The values entered are not all integers separated by commas. Please try again.");
+			   logger.info("The values entered are not all integers separated by commas. Please try again.");
 		  }
 	  }
 	}
